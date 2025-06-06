@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KaliDex - Interactive Kali Tools Database</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header-gradient {
+            background: linear-gradient(45deg, #00ff88, #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
+            border-color: #00ff88;
+        }
+
+        .tool-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 4px solid #00ff88;
+            transition: all 0.3s ease;
+        }
+
+        .tool-item:hover {
+            background: rgba(0, 255, 136, 0.1);
+            transform: translateX(5px);
+        }
+
+        .command-item {
+            background: rgba(0, 0, 0, 0.5);
+            border-left: 3px solid #00ccff;
+            font-family: 'Courier New', monospace;
+        }
+
+        .search-input {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 2px solid #333;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #00ff88;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .expand-btn {
+            background: linear-gradient(45deg, #00ff88, #00ccff);
+            transition: all 0.3s ease;
+        }
+
+        .expand-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .highlight {
+            background-color: #00ff88;
+            color: #000;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .tools-list {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .tools-list.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
+            color: #00ff88;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 50px;
+            color: #b0b0b0;
+            font-size: 1.1em;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="container">
+        <!-- Header -->
+        <header class="text-center mb-10 p-8 glass-card rounded-2xl">
+            <h1 class="text-5xl font-bold header-gradient mb-4">
+                <i class="fas fa-shield-alt mr-3"></i>KaliDex
+            </h1>
+            <p class="text-xl text-gray-300 mb-2">Interactive Kali Linux Tools Database</p>
+            <p class="text-gray-400">Comprehensive collection of penetration testing tools with commands and examples</p>
+        </header>
+
+        <!-- Search Section -->
+        <div class="mb-8 flex flex-col md:flex-row gap-4 justify-center items-center">
+            <div class="relative flex-1 max-w-md">
+                <input 
+                    type="text" 
+                    class="search-input w-full p-4 pl-12 rounded-xl text-white placeholder-gray-400 focus:outline-none" 
+                    id="searchInput" 
+                    placeholder="Search tools, commands, or descriptions..."
+                >
+                <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+            </div>
+            <select 
+                class="search-input p-4 rounded-xl text-white focus:outline-none cursor-pointer" 
+                id="categoryFilter"
+            >
+                <option value="">All Categories</option>
+            </select>
+            <button 
+                id="searchBtn" 
+                class="expand-btn px-6 py-4 rounded-xl text-black font-bold hover:scale-105 transition-transform"
+            >
+                <i class="fas fa-search mr-2"></i>Search
+            </button>
+        </div>
+
+        <!-- Statistics -->
+        <div class="flex flex-wrap justify-center gap-6 mb-10">
+            <div class="stat-card p-6 rounded-xl text-center min-w-32">
+                <div class="text-3xl font-bold text-green-400 mb-2" id="totalTools">
+                    <i class="fas fa-tools mr-2"></i>120+
+                </div>
+                <div class="text-gray-300">Total Tools</div>
+            </div>
+            <div class="stat-card p-6 rounded-xl text-center min-w-32">
+                <div class="text-3xl font-bold text-blue-400 mb-2" id="totalCategories">
+                    <i class="fas fa-layer-group mr-2"></i>15
+                </div>
+                <div class="text-gray-300">Categories</div>
+            </div>
+            <div class="stat-card p-6 rounded-xl text-center min-w-32">
+                <div class="text-3xl font-bold text-purple-400 mb-2" id="totalCommands">
+                    <i class="fas fa-terminal mr-2"></i>500+
+                </div>
+                <div class="text-gray-300">Commands</div>
+            </div>
+        </div>
+
+        <!-- Categories Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="categoriesGrid">
+            <!-- Categories will be dynamically loaded here -->
+        </div>
+
+        <!-- Loading indicator -->
+        <div id="loadingIndicator" class="loading hidden">
+            <i class="fas fa-spinner fa-spin mr-2"></i>Loading tools...
+        </div>
+    </div>
+
+    <script>
+        // Comprehensive Kali Tools Database
+        const toolsDatabase = {
+            "Reconnaissance": [
+                {
+                    name: "Nmap",
+                    description: "Network discovery and security auditing utility for scanning ports, detecting services, and identifying operating systems.",
+                    commands: [
+                        { command: "nmap -sS <target>", explanation: "TCP SYN scan (stealth scan)" },
+                        { command: "nmap -sV <target>", explanation: "Version detection scan" },
+                        { command: "nmap -O <target>", explanation: "Operating system detection" },
+                        { command: "nmap -A <target>", explanation: "Aggressive scan (OS detection, version detection, script scanning)" },
+                        { command: "nmap -sC <target>", explanation: "Default script scan" },
+                        { command: "nmap -p- <target>", explanation: "Scan all 65535 ports" }
+                    ]
+                },
+                {
+                    name: "Masscan",
+                    description: "High-speed port scanner capable of scanning the entire Internet in under 6 minutes.",
+                    commands: [
+                        { command: "masscan -p1-65535 <target> --rate=1000", explanation: "Scan all ports at 1000 packets/second" },
+                        { command: "masscan -p80,443 <target> --rate=10000", explanation: "Fast scan of web ports" },
+                        { command: "masscan --top-ports 100 <target>", explanation: "Scan top 100 most common ports" }
+                    ]
+                },
+                {
+                    name: "Unicornscan",
+                    description: "Asynchronous network stimulus delivery and response framework for TCP/UDP scanning.",
+                    commands: [
+                        { command: "unicornscan -mT <target>:1-65535", explanation: "TCP port scan" },
+                        { command: "unicornscan -mU <target>:1-1024", explanation: "UDP port scan" },
+                        { command: "unicornscan -I <target>", explanation: "Immediate mode scanning" }
+                    ]
+                },
+                {
+                    name: "Dmitry",
+                    description: "Deepmagic Information Gathering Tool for gathering information about hosts.",
+                    commands: [
+                        { command: "dmitry -winsepo <target>", explanation: "Comprehensive information gathering" },
+                        { command: "dmitry -p <target>", explanation: "Port scan" },
+                        { command: "dmitry -e <target>", explanation: "Email address search" }
+                    ]
+                },
+                {
+                    name: "Recon-ng",
+                    description: "Web reconnaissance framework with independent modules and database interaction.",
+                    commands: [
+                        { command: "recon-ng", explanation: "Launch Recon-ng framework" },
+                        { command: "marketplace search", explanation: "Search available modules" },
+                        { command: "modules load <module>", explanation: "Load specific module" },
+                        { command: "workspaces create <name>", explanation: "Create new workspace" }
+                    ]
+                }
+            ],
+            "Windows AD Enumeration": [
+                {
+                    name: "smbclient",
+                    description: "SMB/CIFS client tool for accessing Windows shares and enumerating SMB services.",
+                    commands: [
+                        { command: "smbclient -L //<target>", explanation: "List shares on target without authentication" },
+                        { command: "smbclient -L //<target> -U <username>", explanation: "List shares with username authentication" },
+                        { command: "smbclient //<target>/share -U <username>", explanation: "Connect to specific share" },
+                        { command: "smbclient -N -L //<target>", explanation: "Null session enumeration" }
+                    ]
+                },
+                {
+                    name: "CrackMapExec",
+                    description: "Swiss army knife for pentesting Windows/Active Directory environments.",
+                    commands: [
+                        { command: "crackmapexec smb <target>", explanation: "SMB enumeration and authentication" },
+                        { command: "crackmapexec smb <target> -u <username> -p <password>", explanation: "SMB authentication test" },
+                        { command: "crackmapexec smb <target> --shares", explanation: "Enumerate SMB shares" },
+                        { command: "crackmapexec smb <target> --users", explanation: "Enumerate domain users" }
+                    ]
+                },
+                {
+                    name: "enum4linux",
+                    description: "Tool for enumerating information from Windows and Samba hosts via SMB.",
+                    commands: [
+                        { command: "enum4linux -a <target>", explanation: "Comprehensive enumeration" },
+                        { command: "enum4linux -U <target>", explanation: "Enumerate users" },
+                        { command: "enum4linux -S <target>", explanation: "Enumerate shares" },
+                        { command: "enum4linux -P <target>", explanation: "Enumerate password policy" }
+                    ]
+                },
+                {
+                    name: "rpcclient",
+                    description: "Tool for executing client-side MS-RPC functions against Windows machines.",
+                    commands: [
+                        { command: "rpcclient -U '' -N <target>", explanation: "Connect with null session" },
+                        { command: "enumdomusers", explanation: "Enumerate domain users (inside rpcclient)" },
+                        { command: "enumdomgroups", explanation: "Enumerate domain groups (inside rpcclient)" },
+                        { command: "queryusergroups <rid>", explanation: "Query user groups by RID" }
+                    ]
+                },
+                {
+                    name: "BloodHound",
+                    description: "Active Directory reconnaissance tool for identifying attack paths.",
+                    commands: [
+                        { command: "bloodhound", explanation: "Launch BloodHound GUI" },
+                        { command: "bloodhound-python -d <domain> -u <username> -p <password> -c all", explanation: "Collect AD data" },
+                        { command: "neo4j console", explanation: "Start Neo4j database" }
+                    ]
+                }
+            ],
+            "Web Application Testing": [
+                {
+                    name: "Burp Suite",
+                    description: "Integrated platform for web application security testing with proxy, scanner, and various tools.",
+                    commands: [
+                        { command: "burpsuite", explanation: "Launch Burp Suite GUI" },
+                        { command: "java -jar burpsuite_community.jar", explanation: "Run Burp Suite from JAR file" },
+                        { command: "burpsuite --config-file=<config>", explanation: "Launch with specific configuration" }
+                    ]
+                },
+                {
+                    name: "Nikto",
+                    description: "Web server vulnerability scanner that tests for dangerous files, outdated programs, and server misconfigurations.",
+                    commands: [
+                        { command: "nikto -h <target>", explanation: "Basic vulnerability scan" },
+                        { command: "nikto -h <target> -p 80,443", explanation: "Scan specific ports" },
+                        { command: "nikto -h <target> -ssl", explanation: "Force SSL scanning" },
+                        { command: "nikto -h <target> -o output.txt", explanation: "Save output to file" }
+                    ]
+                },
+                {
+                    name: "SQLMap",
+                    description: "Automatic SQL injection and database takeover tool.",
+                    commands: [
+                        { command: "sqlmap -u '<url>' --dbs", explanation: "Enumerate databases" },
+                        { command: "sqlmap -u '<url>' -D <database> --tables", explanation: "Enumerate tables in database" },
+                        { command: "sqlmap -u '<url>' -D <database> -T <table> --columns", explanation: "Enumerate columns in table" },
+                        { command: "sqlmap -u '<url>' --batch --crawl=2", explanation: "Crawl and test automatically" }
+                    ]
+                },
+                {
+                    name: "dirb",
+                    description: "Web content scanner that looks for hidden files and directories.",
+                    commands: [
+                        { command: "dirb http://<target>", explanation: "Basic directory brute force" },
+                        { command: "dirb http://<target> /usr/share/dirb/wordlists/common.txt", explanation: "Use specific wordlist" },
+                        { command: "dirb http://<target> -X .php,.html,.txt", explanation: "Search for specific extensions" },
+                        { command: "dirb http://<target> -a 'User-Agent'", explanation: "Use custom user agent" }
+                    ]
+                },
+                {
+                    name: "Gobuster",
+                    description: "Fast directory/file & DNS busting tool written in Go.",
+                    commands: [
+                        { command: "gobuster dir -u <target> -w <wordlist>", explanation: "Directory brute forcing" },
+                        { command: "gobuster dns -d <domain> -w <wordlist>", explanation: "DNS subdomain brute forcing" },
+                        { command: "gobuster vhost -u <target> -w <wordlist>", explanation: "Virtual host brute forcing" }
+                    ]
+                },
+                {
+                    name: "OWASP ZAP",
+                    description: "Open-source web application security scanner.",
+                    commands: [
+                        { command: "zaproxy", explanation: "Launch OWASP ZAP GUI" },
+                        { command: "zap.sh -daemon", explanation: "Start ZAP in daemon mode" },
+                        { command: "zap-cli quick-scan <target>", explanation: "Quick scan with ZAP CLI" }
+                    ]
+                }
+            ],
+            "Password Attacks": [
+                {
+                    name: "John the Ripper",
+                    description: "Fast password cracker with support for many hash types and attack modes.",
+                    commands: [
+                        { command: "john --wordlist=<wordlist> <hashfile>", explanation: "Dictionary attack" },
+                        { command: "john --incremental <hashfile>", explanation: "Brute force attack" },
+                        { command: "john --show <hashfile>", explanation: "Show cracked passwords" },
+                        { command: "john --format=<format> <hashfile>", explanation: "Specify hash format" }
+                    ]
+                },
+                {
+                    name: "Hydra",
+                    description: "Fast network logon cracker supporting many protocols like SSH, FTP, HTTP, etc.",
+                    commands: [
+                        { command: "hydra -l <username> -P <wordlist> <target> ssh", explanation: "SSH brute force attack" },
+                        { command: "hydra -L <userlist> -P <wordlist> <target> ftp", explanation: "FTP brute force with user list" },
+                        { command: "hydra -l admin -P <wordlist> <target> http-get /admin", explanation: "HTTP basic auth brute force" },
+                        { command: "hydra -l <username> -p <password> <target> rdp", explanation: "RDP login test" }
+                    ]
+                },
+                {
+                    name: "Hashcat",
+                    description: "Advanced password recovery utility supporting GPU acceleration and many hash algorithms.",
+                    commands: [
+                        { command: "hashcat -m 0 <hashfile> <wordlist>", explanation: "MD5 hash cracking" },
+                        { command: "hashcat -m 1000 <hashfile> <wordlist>", explanation: "NTLM hash cracking" },
+                        { command: "hashcat -a 3 -m 0 <hashfile> ?d?d?d?d", explanation: "4-digit brute force attack" },
+                        { command: "hashcat --show <hashfile>", explanation: "Show cracked passwords" }
+                    ]
+                },
+                {
+                    name: "Medusa",
+                    description: "Speedy, massively parallel, modular login brute-forcer for network services.",
+                    commands: [
+                        { command: "medusa -h <target> -u <username> -P <wordlist> -M ssh", explanation: "SSH brute force" },
+                        { command: "medusa -h <target> -U <userlist> -P <wordlist> -M ftp", explanation: "FTP brute force" },
+                        { command: "medusa -h <target> -u <username> -p <password> -M telnet", explanation: "Telnet login test" }
+                    ]
+                }
+            ],
+            "Wireless Security": [
+                {
+                    name: "Aircrack-ng",
+                    description: "Complete suite of tools to assess WiFi network security including monitoring, attacking, and cracking.",
+                    commands: [
+                        { command: "airmon-ng start wlan0", explanation: "Enable monitor mode on wireless interface" },
+                        { command: "airodump-ng wlan0mon", explanation: "Scan for wireless networks" },
+                        { command: "airodump-ng -c <channel> -w <output> --bssid <bssid> wlan0mon", explanation: "Capture specific network traffic" },
+                        { command: "aireplay-ng -0 5 -a <bssid> wlan0mon", explanation: "Deauthentication attack" },
+                        { command: "aircrack-ng -w <wordlist> <capfile>", explanation: "Crack WPA/WPA2 password" }
+                    ]
+                },
+                {
+                    name: "Kismet",
+                    description: "Wireless network detector, sniffer, and intrusion detection system.",
+                    commands: [
+                        { command: "kismet", explanation: "Launch Kismet wireless detector" },
+                        { command: "kismet -c wlan0", explanation: "Start Kismet with specific interface" },
+                        { command: "kismet_server", explanation: "Start Kismet server" }
+                    ]
+                },
+                {
+                    name: "Wifite",
+                    description: "Automated wireless attack tool that automates various WiFi attacks.",
+                    commands: [
+                        { command: "wifite", explanation: "Automated WiFi attack tool" },
+                        { command: "wifite --wpa", explanation: "Attack WPA/WPA2 networks only" },
+                        { command: "wifite --wep", explanation: "Attack WEP networks only" },
+                        { command: "wifite --dict <wordlist>", explanation: "Use custom wordlist" }
+                    ]
+                },
+                {
+                    name: "Reaver",
+                    description: "WPS PIN brute force attack tool for wireless networks.",
+                    commands: [
+                        { command: "reaver -i <interface> -b <bssid> -vv", explanation: "WPS PIN attack" },
+                        { command: "reaver -i <interface> -b <bssid> -c <channel>", explanation: "Attack specific channel" },
+                        { command: "wash -i <interface>", explanation: "Scan for WPS enabled networks" }
+                    ]
+                }
+            ],
+            "Network Analysis": [
+                {
+                    name: "Wireshark",
+                    description: "Network protocol analyzer for troubleshooting, analysis, and security auditing.",
+                    commands: [
+                        { command: "wireshark", explanation: "Launch Wireshark GUI" },
+                        { command: "tshark -i <interface>", explanation: "Command-line packet capture" },
+                        { command: "tshark -r <file.pcap>", explanation: "Read packet capture file" },
+                        { command: "tshark -i <interface> -f 'tcp port 80'", explanation: "Capture HTTP traffic only" }
+                    ]
+                },
+                {
+                    name: "tcpdump",
+                    description: "Command-line packet analyzer for network traffic monitoring and analysis.",
+                    commands: [
+                        { command: "tcpdump -i <interface>", explanation: "Capture packets on interface" },
+                        { command: "tcpdump host <target>", explanation: "Capture traffic to/from specific host" },
+                        { command: "tcpdump port 80", explanation: "Capture HTTP traffic" },
+                        { command: "tcpdump -w <file.pcap>", explanation: "Save capture to file" }
+                    ]
+                },
+                {
+                    name: "Netcat",
+                    description: "Networking utility for reading/writing network connections using TCP/UDP.",
+                    commands: [
+                        { command: "nc -l -p <port>", explanation: "Listen on specific port" },
+                        { command: "nc <target> <port>", explanation: "Connect to target on port" },
+                        { command: "nc -e /bin/bash <target> <port>", explanation: "Bind shell to target" },
+                        { command: "nc -u <target> <port>", explanation: "UDP connection" }
+                    ]
+                },
+                {
+                    name: "Ettercap",
+                    description: "Comprehensive suite for man-in-the-middle attacks on LAN.",
+                    commands: [
+                        { command: "ettercap -G", explanation: "Launch Ettercap GUI" },
+                        { command: "ettercap -T -M arp:remote /<target1>// /<target2>//", explanation: "ARP poisoning attack" },
+                        { command: "ettercap -T -M arp:remote /<gateway>// /<victim>//", explanation: "MITM attack" }
+                    ]
+                }
+            ],
+            "Exploitation": [
+                {
+                    name: "Metasploit",
+                    description: "Penetration testing framework with exploits, payloads, and post-exploitation tools.",
+                    commands: [
+                        { command: "msfconsole", explanation: "Launch Metasploit console" },
+                        { command: "search <keyword>", explanation: "Search for exploits/modules" },
+                        { command: "use <module>", explanation: "Select exploit/module" },
+                        { command: "show options", explanation: "Display module options" },
+                        { command: "set RHOSTS <target>", explanation: "Set target host" },
+                        { command: "exploit", explanation: "Run the exploit" }
+                    ]
+                },
+                {
+                    name: "Social-Engineer Toolkit",
+                    description: "Open-source penetration testing framework for social engineering attacks.",
+                    commands: [
+                        { command: "setoolkit", explanation: "Launch Social-Engineer Toolkit" },
+                        { command: "se-toolkit", explanation: "Alternative command to launch SET" }
+                    ]
+                },
+                {
+                    name: "BeEF",
+                    description: "Browser Exploitation Framework for testing web browser security.",
+                    commands: [
+                        { command: "beef-xss", explanation: "Launch BeEF framework" },
+                        { command: "beef", explanation: "Start BeEF server" }
+                    ]
+                },
+                {
+                    name: "Searchsploit",
+                    description: "Command-line search tool for Exploit Database.",
+                    commands: [
+                        { command: "searchsploit <keyword>", explanation: "Search for exploits" },
+                        { command: "searchsploit -m <exploit_id>", explanation: "Mirror exploit to current directory" },
+                        { command: "searchsploit -p <exploit_id>", explanation: "Show path to exploit" }
+                    ]
+                }
+            ],
+            "Digital Forensics": [
+                {
+                    name: "Autopsy",
+                    description: "Digital forensics platform for analyzing disk images and recovering digital evidence.",
+                    commands: [
+                        { command: "autopsy", explanation: "Launch Autopsy forensics platform" }
+                    ]
+                },
+                {
+                    name: "Volatility",
+                    description: "Memory forensics framework for analyzing RAM dumps and extracting digital artifacts.",
+                    commands: [
+                        { command: "volatility -f <memory.dump> imageinfo", explanation: "Identify memory dump profile" },
+                        { command: "volatility -f <memory.dump> --profile=<profile> pslist", explanation: "List running processes" },
+                        { command: "volatility -f <memory.dump> --profile=<profile> netscan", explanation: "Scan for network connections" },
+                        { command: "volatility -f <memory.dump> --profile=<profile> filescan", explanation: "Scan for files in memory" }
+                    ]
+                },
+                {
+                    name: "Sleuth Kit",
+                    description: "Collection of command-line tools for digital forensics and file system analysis.",
+                    commands: [
+                        { command: "fls <image>", explanation: "List files and directories" },
+                        { command: "icat <image> <inode>", explanation: "Extract file by inode" },
+                        { command: "mmls <image>", explanation: "Display partition layout" },
+                        { command: "fsstat <image>", explanation: "Display file system statistics" }
+                    ]
+                },
+                {
+                    name: "Binwalk",
+                    description: "Firmware analysis tool for searching binary images for embedded files and executable code.",
+                    commands: [
+                        { command: "binwalk <file>", explanation: "Analyze binary file" },
+                        { command: "binwalk -e <file>", explanation: "Extract embedded files" },
+                        { command: "binwalk -B <file>", explanation: "Scan for common file signatures" }
+                    ]
+                }
+            ],
+            "Vulnerability Assessment": [
+                {
+                    name: "OpenVAS",
+                    description: "Comprehensive vulnerability scanning and management solution.",
+                    commands: [
+                        { command: "openvas-setup", explanation: "Initial OpenVAS setup" },
+                        { command: "openvas-start", explanation: "Start OpenVAS services" },
+                        { command: "openvas-stop", explanation: "Stop OpenVAS services" }
+                    ]
+                },
+                {
+                    name: "Nessus",
+                    description: "Vulnerability scanner for identifying security vulnerabilities and compliance issues.",
+                    commands: [
+                        { command: "/opt/nessus/sbin/nessus-service", explanation: "Start Nessus service" },
+                        { command: "/opt/nessus/sbin/nessuscli", explanation: "Nessus command-line interface" }
+                    ]
+                },
+                {
+                    name: "Nexpose",
+                    description: "Vulnerability management solution for identifying and prioritizing security risks.",
+                    commands: [
+                        { command: "nexpose", explanation: "Launch Nexpose console" }
+                    ]
+                },
+                {
+                    name: "Nuclei",
+                    description: "Fast and customizable vulnerability scanner based on simple YAML-based DSL.",
+                    commands: [
+                        { command: "nuclei -u <target>", explanation: "Scan single target" },
+                        { command: "nuclei -l <target_list>", explanation: "Scan multiple targets from file" },
+                        { command: "nuclei -t <template>", explanation: "Use specific template" }
+                    ]
+                }
+            ],
+            "Reverse Engineering": [
+                {
+                    name: "Ghidra",
+                    description: "NSA's reverse engineering framework for analyzing compiled code.",
+                    commands: [
+                        { command: "ghidraRun", explanation: "Launch Ghidra GUI" },
+                        { command: "analyzeHeadless", explanation: "Headless analysis mode" }
+                    ]
+                },
+                {
+                    name: "Radare2",
+                    description: "Portable reverse engineering framework with debugger and disassembler.",
+                    commands: [
+                        { command: "r2 <binary>", explanation: "Open binary in radare2" },
+                        { command: "aaa", explanation: "Analyze all (inside r2)" },
+                        { command: "pdf", explanation: "Print disassembly of function" },
+                        { command: "V", explanation: "Enter visual mode" }
+                    ]
+                },
+                {
+                    name: "OllyDbg",
+                    description: "32-bit assembler-level debugger for Windows applications.",
+                    commands: [
+                        { command: "ollydbg", explanation: "Launch OllyDbg debugger" }
+                    ]
+                },
+                {
+                    name: "GDB",
+                    description: "GNU Debugger for debugging programs and analyzing crashes.",
+                    commands: [
+                        { command: "gdb <binary>", explanation: "Start debugging binary" },
+                        { command: "break main", explanation: "Set breakpoint at main function" },
+                        { command: "run", explanation: "Start program execution" },
+                        { command: "info registers", explanation: "Display register values" }
+                    ]
+                }
+            ],
+            "Cryptography": [
+                {
+                    name: "OpenSSL",
+                    description: "Cryptography toolkit for SSL/TLS protocols and general cryptographic functions.",
+                    commands: [
+                        { command: "openssl genrsa -out private.key 2048", explanation: "Generate RSA private key" },
+                        { command: "openssl req -new -key private.key -out request.csr", explanation: "Generate certificate signing request" },
+                        { command: "openssl x509 -req -in request.csr -signkey private.key -out certificate.crt", explanation: "Self-sign certificate" },
+                        { command: "openssl s_client -connect <host>:443", explanation: "Test SSL connection" }
+                    ]
+                },
+                {
+                    name: "GPG",
+                    description: "GNU Privacy Guard for encryption, digital signatures, and key management.",
+                    commands: [
+                        { command: "gpg --gen-key", explanation: "Generate new key pair" },
+                        { command: "gpg --encrypt --recipient <email> <file>", explanation: "Encrypt file for recipient" },
+                        { command: "gpg --decrypt <file.gpg>", explanation: "Decrypt file" },
+                        { command: "gpg --list-keys", explanation: "List public keys" }
+                    ]
+                },
+                {
+                    name: "Hash-identifier",
+                    description: "Tool for identifying different types of hashes.",
+                    commands: [
+                        { command: "hash-identifier", explanation: "Launch hash identification tool" },
+                        { command: "hashid <hash>", explanation: "Identify hash type" }
+                    ]
+                }
+            ],
+            "System Analysis": [
+                {
+                    name: "Chkrootkit",
+                    description: "Rootkit detection tool for Unix-like systems.",
+                    commands: [
+                        { command: "chkrootkit", explanation: "Check for rootkits" },
+                        { command: "chkrootkit -q", explanation: "Quiet mode - only show infections" },
+                        { command: "chkrootkit -x", explanation: "Expert mode with additional checks" }
+                    ]
+                },
+                {
+                    name: "RKHunter",
+                    description: "Rootkit Hunter scans for rootkits, backdoors, and local exploits.",
+                    commands: [
+                        { command: "rkhunter --check", explanation: "Perform rootkit check" },
+                        { command: "rkhunter --update", explanation: "Update rootkit database" },
+                        { command: "rkhunter --propupd", explanation: "Update file properties database" }
+                    ]
+                },
+                {
+                    name: "Lynis",
+                    description: "Security auditing tool for Unix-based systems to perform compliance testing and security hardening.",
+                    commands: [
+                        { command: "lynis audit system", explanation: "Perform complete system audit" },
+                        { command: "lynis show categories", explanation: "Show available audit categories" },
+                        { command: "lynis show groups", explanation: "Display test groups" },
+                        { command: "lynis update info", explanation: "Check for updates" }
+                    ]
+                }
+            ],
+            "Database Assessment": [
+                {
+                    name: "SQLMap",
+                    description: "Automatic SQL injection and database takeover tool with advanced detection capabilities.",
+                    commands: [
+                        { command: "sqlmap -u '<url>' --dbs", explanation: "Enumerate databases" },
+                        { command: "sqlmap -u '<url>' -D <database> --tables", explanation: "Enumerate tables" },
+                        { command: "sqlmap -u '<url>' --os-shell", explanation: "Get OS shell via SQL injection" },
+                        { command: "sqlmap -u '<url>' --file-read=/etc/passwd", explanation: "Read system files" }
+                    ]
+                },
+                {
+                    name: "NoSQLMap",
+                    description: "Automated NoSQL database enumeration and web application exploitation tool.",
+                    commands: [
+                        { command: "nosqlmap --target <url>", explanation: "Target NoSQL application" },
+                        { command: "nosqlmap --scan", explanation: "Scan for NoSQL injection" },
+                        { command: "nosqlmap --exploit", explanation: "Exploit discovered vulnerabilities" }
+                    ]
+                }
+            ],
+            "SNMP Analysis": [
+                {
+                    name: "SNMPwalk",
+                    description: "SNMP application that uses GET NEXT requests to query network devices.",
+                    commands: [
+                        { command: "snmpwalk -v2c -c public <target>", explanation: "Walk SNMP tree with community 'public'" },
+                        { command: "snmpwalk -v2c -c <community> <target> 1.3.6.1.2.1.1", explanation: "Query system information" },
+                        { command: "snmpwalk -v3 -u <username> <target>", explanation: "SNMPv3 authentication" }
+                    ]
+                },
+                {
+                    name: "SNMPcheck",
+                    description: "SNMP enumerator that attempts to enumerate SNMP devices and extract information.",
+                    commands: [
+                        { command: "snmpcheck -t <target>", explanation: "Basic SNMP enumeration" },
+                        { command: "snmpcheck -t <target> -c <community>", explanation: "Use specific community string" },
+                        { command: "snmpcheck -t <target> -w", explanation: "Check for write access" }
+                    ]
+                }
+            ],
+            "DNS Analysis": [
+                {
+                    name: "DNSrecon",
+                    description: "DNS enumeration script for gathering DNS records and discovering subdomains.",
+                    commands: [
+                        { command: "dnsrecon -d <domain>", explanation: "Basic DNS enumeration" },
+                        { command: "dnsrecon -d <domain> -t axfr", explanation: "Attempt zone transfer" },
+                        { command: "dnsrecon -d <domain> -D <wordlist> -t brt", explanation: "Brute force subdomains" },
+                        { command: "dnsrecon -r <ip_range>", explanation: "Reverse DNS lookup for IP range" }
+                    ]
+                },
+                {
+                    name: "DNSenum",
+                    description: "DNS enumeration tool for gathering information about DNS servers and domains.",
+                    commands: [
+                        { command: "dnsenum <domain>", explanation: "Comprehensive DNS enumeration" },
+                        { command: "dnsenum --dnsserver <dns_server> <domain>", explanation: "Use specific DNS server" },
+                        { command: "dnsenum --enum <domain>", explanation: "Enable subdomain enumeration" }
+                    ]
+                },
+                {
+                    name: "Fierce",
+                    description: "DNS reconnaissance tool for locating non-contiguous IP space.",
+                    commands: [
+                        { command: "fierce -dns <domain>", explanation: "Basic domain reconnaissance" },
+                        { command: "fierce -dns <domain> -wordlist <wordlist>", explanation: "Use custom wordlist" },
+                        { command: "fierce -range <ip_range>", explanation: "Scan IP range" }
+                    ]
+                }
+            ]
+        };
+
+        // Application state
+        let filteredData = { ...toolsDatabase };
+        let currentSearch = '';
+        let currentCategory = '';
+
+        // Initialize the application
+        function initApp() {
+            populateCategoryFilter();
+            renderCategories();
+            updateStats();
+            setupEventListeners();
+            console.log('KaliDex initialized with', Object.keys(toolsDatabase).length, 'categories');
+        }
+
+        // Populate category filter dropdown
+        function populateCategoryFilter() {
+            const categoryFilter = document.getElementById('categoryFilter');
+            const categories = Object.keys(toolsDatabase);
+            
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categoryFilter.appendChild(option);
+            });
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            const searchInput = document.getElementById('searchInput');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const searchBtn = document.getElementById('searchBtn');
+
+            // Search input events
+            searchInput.addEventListener('input', handleSearch);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    performSearch();
+                }
+            });
+
+            // Category filter
+            categoryFilter.addEventListener('change', handleCategoryFilter);
+
+            // Search button
+            searchBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                performSearch();
+            });
+
+            console.log('Event listeners setup complete');
+        }
+
+        // Handle search functionality
+        function handleSearch(event) {
+            currentSearch = event.target.value.toLowerCase();
+            filterData();
+        }
+
+        // Perform search (for button click and Enter key)
+        function performSearch() {
+            const searchInput = document.getElementById('searchInput');
+            currentSearch = searchInput.value.toLowerCase();
+            filterData();
+            
+            // Visual feedback
+            const searchBtn = document.getElementById('searchBtn');
+            searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Searching...';
+            
+            setTimeout(() => {
+                searchBtn.innerHTML = '<i class="fas fa-search mr-2"></i>Search';
+            }, 500);
+        }
+
+        // Handle category filtering
+        function handleCategoryFilter(event) {
+            currentCategory = event.target.value;
+            filterData();
+        }
+
+        // Filter data based on search and category
+        function filterData() {
+            filteredData = {};
+
+            Object.keys(toolsDatabase).forEach(category => {
+                // Filter by category if selected
+                if (currentCategory && category !== currentCategory) {
+                    return;
+                }
+
+                // Filter by search term
+                const filteredTools = toolsDatabase[category].filter(tool => {
+                    if (!currentSearch) return true;
+                    
+                    const searchInTool = tool.name.toLowerCase().includes(currentSearch) ||
+                                       tool.description.toLowerCase().includes(currentSearch);
+                    
+                    const searchInCommands = tool.commands.some(cmd => 
+                        cmd.command.toLowerCase().includes(currentSearch) ||
+                        cmd.explanation.toLowerCase().includes(currentSearch)
+                    );
+
+                    return searchInTool || searchInCommands;
+                });
+
+                if (filteredTools.length > 0) {
+                    filteredData[category] = filteredTools;
+                }
+            });
+
+            renderCategories();
+            updateStats();
+        }
+
+        // Render categories and tools
+        function renderCategories() {
+            const grid = document.getElementById('categoriesGrid');
+            
+            if (Object.keys(filteredData).length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full no-results">
+                        <i class="fas fa-search text-4xl mb-4 opacity-50"></i>
+                        <p>No tools found matching your criteria.</p>
+                        <p class="text-sm mt-2 opacity-75">Try adjusting your search terms or category filter.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = '';
+
+            Object.keys(filteredData).forEach(category => {
+                const categoryCard = createCategoryCard(category, filteredData[category]);
+                grid.appendChild(categoryCard);
+            });
+        }
+
+        // Create category card element
+        function createCategoryCard(category, tools) {
+            const card = document.createElement('div');
+            card.className = 'category-card rounded-xl p-6';
+            
+            const categoryIcon = getCategoryIcon(category);
+            const sanitizedCategory = category.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '');
+
+            card.innerHTML = `
+                <div class="flex justify-between items-center mb-4">
+                    <div class="flex items-center">
+                        <i class="${categoryIcon} text-2xl text-blue-400 mr-3"></i>
+                        <div class="text-xl font-bold text-blue-400">${category}</div>
+                    </div>
+                    <div class="bg-green-400 text-black px-3 py-1 rounded-full font-bold text-sm">
+                        ${tools.length}
+                    </div>
+                </div>
+                <button 
+                    class="expand-btn w-full px-4 py-2 rounded-lg text-black font-bold mb-4"
+                    onclick="toggleCategory('${sanitizedCategory}', this)"
+                >
+                    <i class="fas fa-eye mr-2"></i>View Tools
+                </button>
+                <div class="tools-list" id="tools-${sanitizedCategory}">
+                    ${tools.map(tool => createToolItem(tool)).join('')}
+                </div>
+            `;
+
+            return card;
+        }
+
+        // Get icon for category
+        function getCategoryIcon(category) {
+            const icons = {
+                'Reconnaissance': 'fas fa-search',
+                'Windows AD Enumeration': 'fab fa-windows',
+                'Web Application Testing': 'fas fa-globe',
+                'Password Attacks': 'fas fa-key',
+                'Wireless Security': 'fas fa-wifi',
+                'Network Analysis': 'fas fa-network-wired',
+                'Exploitation': 'fas fa-bug',
+                'Digital Forensics': 'fas fa-search-plus',
+                'Vulnerability Assessment': 'fas fa-shield-alt',
+                'Reverse Engineering': 'fas fa-cogs',
+                'Cryptography': 'fas fa-lock',
+                'System Analysis': 'fas fa-desktop',
+                'Database Assessment': 'fas fa-database',
+                'SNMP Analysis': 'fas fa-server',
+                'DNS Analysis': 'fas fa-dns'
+            };
+            return icons[category] || 'fas fa-tools';
+        }
+
+        // Create tool item element with highlighting
+        function createToolItem(tool) {
+            const highlightText = (text, searchTerm) => {
+                if (!searchTerm) return text;
+                const regex = new RegExp(`(${escapeRegExp(searchTerm)})`, 'gi');
+                return text.replace(regex, '<span class="highlight">$1</span>');
+            };
+
+            const escapeRegExp = (string) => {
+                return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            };
+
+            return `
+                <div class="tool-item rounded-lg p-4 mb-4">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-terminal text-green-400 mr-3"></i>
+                        <div class="text-lg font-bold text-green-400">${highlightText(tool.name, currentSearch)}</div>
+                    </div>
+                    <div class="text-gray-300 mb-4 leading-relaxed">${highlightText(tool.description, currentSearch)}</div>
+                    <div class="space-y-3">
+                        ${tool.commands.map(cmd => `
+                            <div class="command-item rounded-lg p-3">
+                                <div class="flex items-center mb-2">
+                                    <i class="fas fa-arrow-right text-blue-400 mr-2"></i>
+                                    <div class="text-blue-400 font-bold text-sm">${highlightText(cmd.command, currentSearch)}</div>
+                                </div>
+                                <div class="text-gray-300 text-sm pl-6">${highlightText(cmd.explanation, currentSearch)}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Toggle category visibility
+        function toggleCategory(sanitizedCategory, buttonElement) {
+            const toolsList = document.getElementById(`tools-${sanitizedCategory}`);
+            
+            if (toolsList && buttonElement) {
+                const isActive = toolsList.classList.contains('active');
+                
+                if (isActive) {
+                    toolsList.classList.remove('active');
+                    buttonElement.innerHTML = '<i class="fas fa-eye mr-2"></i>View Tools';
+                } else {
+                    toolsList.classList.add('active');
+                    buttonElement.innerHTML = '<i class="fas fa-eye-slash mr-2"></i>Hide Tools';
+                }
+            }
+        }
+
+        // Update statistics
+        function updateStats() {
+            const totalTools = Object.values(filteredData).reduce((sum, tools) => sum + tools.length, 0);
+            const totalCategories = Object.keys(filteredData).length;
+            const totalCommands = Object.values(filteredData).reduce((sum, tools) => 
+                sum + tools.reduce((cmdSum, tool) => cmdSum + tool.commands.length, 0), 0);
+
+            document.getElementById('totalTools').innerHTML = `<i class="fas fa-tools mr-2"></i>${totalTools}`;
+            document.getElementById('totalCategories').innerHTML = `<i class="fas fa-layer-group mr-2"></i>${totalCategories}`;
+            document.getElementById('totalCommands').innerHTML = `<i class="fas fa-terminal mr-2"></i>${totalCommands}`;
+        }
+
+        // Initialize app when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing KaliDex...');
+            initApp();
+        });
+
+        // Make toggleCategory function globally available
+        window.toggleCategory = toggleCategory;
+    </script>
+</body>
+</html>
