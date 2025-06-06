@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>KaliDex Clone - Ultimate Kali Linux Tool Index</title>
+<!-- FontAwesome for icons -->
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  rel="stylesheet"
+/>
+<style>
+  /* --- Styles --- */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+    color: #e0e0e0;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  h1.header-gradient {
+    background: linear-gradient(45deg, #00ff88, #00ccff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 3rem;
+    margin-bottom: 10px;
+    user-select: none;
+  }
+  p.desc {
+    margin-bottom: 30px;
+    opacity: 0.8;
+  }
+  .stats {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 25px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    user-select: none;
+  }
+  .stats > div {
+    background: #111c24;
+    padding: 8px 16px;
+    border-radius: 25px;
+    color: #00ff88;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .controls {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+  }
+  input#searchInput {
+    flex: 1 1 300px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+  }
+  select#categoryFilter {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+    background: #111c24;
+    color: #e0e0e0;
+    font-size: 1rem;
+  }
+  button#searchBtn {
+    padding: 10px 20px;
+    background: #00ff88;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    color: #000;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  button#searchBtn:hover {
+    background: #00cc6a;
+  }
+  .categories-grid {
+    display: grid;
+    gap: 20px;
+  }
+  @media (min-width: 700px) {
+    .categories-grid {
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    }
+  }
+  .category-card {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 18px 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgb(0 255 136 / 0.2);
+    display: flex;
+    flex-direction: column;
+  }
+  .category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .category-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #00ff88;
+  }
+  .category-count {
+    background: #00ff88;
+    color: #000;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-weight: 700;
+    user-select: none;
+  }
+  .expand-btn {
+    margin-bottom: 12px;
+    background: #00ff88;
+    color: #000;
+    border: none;
+    padding: 8px 12px;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s ease;
+  }
+  .expand-btn:hover {
+    background: #00cc6a;
+  }
+  .tools-list {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .tools-list.active {
+    max-height: 1500px; /* large enough for all tools */
+  }
+  .tool-item {
+    background: rgba(0, 0, 0, 0.4);
+    border-left: 4px solid #00ff88;
+    padding: 15px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+  }
+  .tool-item:hover {
+    background: rgba(0, 255, 136, 0.15);
+  }
+  .tool-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #00ff88;
+    margin-bottom: 6px;
+  }
+  .tool-desc {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    color: #ccc;
+  }
+  .command-item {
+    background: rgba(0, 0, 0, 0.6);
+    border-left: 3px solid #00ccff;
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    color: #cceeff;
+  }
+  .command-text {
+    font-weight: 700;
+    color: #00ccff;
+    margin-bottom: 3px;
+  }
+  .highlight {
+    background-color: #00ff88;
+    color: #000;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-weight: 700;
+  }
+  .no-results {
+    text-align: center;
+    color: #666;
+    font-size: 1.3rem;
+    user-select: none;
+  }
+</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KaliDex</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="header-container">
+    <h1 class="main-title">KaliDex</h1>
+    <p class="description">
+      Your curated hub for essential Kali Linux tools — streamlined, organized, and ready to empower every red team operation.<br>
+      Explore commands, understand usage, and sharpen your skills with precision.
+    </p>
+  </header>
+  
+
+  <div class="stats" aria-live="polite" aria-atomic="true">
+    <div id="totalTools"><i class="fas fa-tools"></i> 0</div>
+    <div id="totalCategories"><i class="fas fa-layer-group"></i> 0</div>
+    <div id="totalCommands"><i class="fas fa-terminal"></i> 0</div>
+  </div>
+
+  <div class="controls" role="search" aria-label="Search KaliDex tools">
+    <input id="searchInput" type="search" placeholder="Search tools, commands..." aria-label="Search tools and commands" />
+    <select id="categoryFilter" aria-label="Filter by category">
+      <option value="">All Categories</option>
+    </select>
+    <button id="searchBtn" aria-label="Search button"><i class="fas fa-search"></i> Search</button>
+  </div>
+
+  <div id="categoriesGrid" class="categories-grid"></div>
+
+</body>
+</html>
+
+</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KaliDex</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+  <script>
+    // Sample database - replace or extend this with your full JSON tools data
+    let toolsDatabase = {};
+let filteredData = {};
+let currentSearch = '';
+let currentCategory = '';
+
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const res = await fetch('data/tools.json');
+    toolsDatabase = await res.json();
+    filteredData = { ...toolsDatabase };
+    initApp();
+  } catch (error) {
+    console.error("Failed to load tools.json:", error);
+    document.getElementById('categoriesGrid').innerHTML = `
+      <div class="no-results">
+        <p>Failed to load tool data. Please ensure tools.json is in the same folder.</p>
+      </div>
+    `;
+  }
+});
+
+    function initApp() {
+      populateCategoryFilter();
+      renderCategories();
+      updateStats();
+      setupEventListeners();
+      console.log('KaliDex initialized with', Object.keys(toolsDatabase).length, 'categories');
+    }
+
+    function populateCategoryFilter() {
+      const categoryFilter = document.getElementById('categoryFilter');
+      const categories = Object.keys(toolsDatabase);
+
+      categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        categoryFilter.appendChild(option);
+      });
+    }
+
+    function setupEventListeners() {
+      const searchInput = document.getElementById('searchInput');
+      const categoryFilter = document.getElementById('categoryFilter');
+      const searchBtn = document.getElementById('searchBtn');
+
+      searchInput.addEventListener('input', handleSearch);
+      searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          performSearch();
+        }
+      });
+
+      categoryFilter.addEventListener('change', handleCategoryFilter);
+
+      searchBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        performSearch();
+      });
+    }
+
+    function handleSearch(event) {
+      currentSearch = event.target.value.toLowerCase();
+      filterData();
+    }
+
+    function performSearch() {
+      const searchInput = document.getElementById('searchInput');
+      currentSearch = searchInput.value.toLowerCase();
+      filterData();
+
+      const searchBtn = document.getElementById('searchBtn');
+      searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Searching...';
+
+      setTimeout(() => {
+        searchBtn.innerHTML = '<i class="fas fa-search mr-2"></i> Search';
+      }, 500);
+    }
+
+    function handleCategoryFilter(event) {
+      currentCategory = event.target.value;
+      filterData();
+    }
+
+    function filterData() {
+      filteredData = {};
+
+      Object.keys(toolsDatabase).forEach(category => {
+        if (currentCategory && category !== currentCategory) return;
+
+        const filteredTools = toolsDatabase[category].filter(tool => {
+          if (!currentSearch) return true;
+
+          const searchInTool = tool.name.toLowerCase().includes(currentSearch) ||
+            tool.description.toLowerCase().includes(currentSearch);
+
+          const searchInCommands = tool.commands.some(cmd =>
+            cmd.command.toLowerCase().includes(currentSearch) ||
+            cmd.explanation.toLowerCase().includes(currentSearch)
+          );
+
+          return searchInTool || searchInCommands;
+        });
+
+        if (filteredTools.length > 0) {
+          filteredData[category] = filteredTools;
+        }
+      });
+
+      renderCategories();
+      updateStats();
+    }
+
+    function renderCategories() {
+      const grid = document.getElementById('categoriesGrid');
+
+      if (Object.keys(filteredData).length === 0) {
+        grid.innerHTML = `
+          <div class="no-results" role="alert" aria-live="assertive" aria-atomic="true">
+            <i class="fas fa-search text-4xl mb-4" style="opacity:0.5;"></i>
+            <p>No tools found matching your criteria.</p>
+            <p style="opacity:0.75;">Try adjusting your search terms or category filter.</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = '';
+
+      Object.keys(filteredData).forEach(category => {
+        const categoryCard = createCategoryCard(category, filteredData[category]);
+        grid.appendChild(categoryCard);
+      });
+    }
+
+    function createCategoryCard(category, tools) {
+      const card = document.createElement('div');
+      card.className = 'category-card';
+
+      const categoryIcon = getCategoryIcon(category);
+      const sanitizedCategory = category.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '');
+
+      card.innerHTML = `
+        <div class="category-header">
+          <div class="category-title">
+            <i class="${categoryIcon}"></i>
+            <span>${category}</span>
+          </div>
+          <div class="category-count">${tools.length}</div>
+        </div>
+        <button class="expand-btn" onclick="toggleCategory('${sanitizedCategory}', this)">
+          <i class="fas fa-eye"></i> View Tools
+        </button>
+        <div class="tools-list" id="tools-${sanitizedCategory}">
+          ${tools.map(tool => createToolItem(tool)).join('')}
+        </div>
+      `;
+
+      return card;
+    }
+
+    function getCategoryIcon(category) {
+      const icons = {
+        'Reconnaissance': 'fas fa-search',
+        'Windows AD Enumeration': 'fab fa-windows',
+        'Web Application Testing': 'fas fa-globe',
+        'Password Attacks': 'fas fa-key',
+        'Wireless Security': 'fas fa-wifi',
+        'Network Analysis': 'fas fa-network-wired',
+        'Exploitation': 'fas fa-bug',
+        'Digital Forensics': 'fas fa-search-plus',
+        'Vulnerability Assessment': 'fas fa-shield-alt',
+        'Reverse Engineering': 'fas fa-cogs',
+        'Cryptography': 'fas fa-lock',
+        'System Analysis': 'fas fa-desktop',
+        'Database Assessment': 'fas fa-database',
+        'SNMP Analysis': 'fas fa-server',
+        'DNS Analysis': 'fas fa-dns'
+      };
+      return icons[category] || 'fas fa-tools';
+    }
+
+    function createToolItem(tool) {
+      const highlightText = (text, searchTerm) => {
+        if (!searchTerm) return text;
+        const regex = new RegExp(`(${escapeRegExp(searchTerm)})`, 'gi');
+        return text.replace(regex, '<span class="highlight">$1</span>');
+      };
+
+      const escapeRegExp = (string) => {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      };
+
+      return `
+        <div class="tool-item">
+          <div class="tool-name">${highlightText(tool.name, currentSearch)}</div>
+          <div class="tool-desc">${highlightText(tool.description, currentSearch)}</div>
+          <div class="commands">
+            ${tool.commands.map(cmd => `
+              <div class="command-item">
+                <div class="command-text">${highlightText(cmd.command, currentSearch)}</div>
+                <div>${highlightText(cmd.explanation, currentSearch)}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleCategory(sanitizedCategory, buttonElement) {
+      const toolsList = document.getElementById(`tools-${sanitizedCategory}`);
+
+      if (toolsList && buttonElement) {
+        const isActive = toolsList.classList.contains('active');
+
+        if (isActive) {
+          toolsList.classList.remove('active');
+          buttonElement.innerHTML = '<i class="fas fa-eye"></i> View Tools';
+        } else {
+          toolsList.classList.add('active');
+          buttonElement.innerHTML = '<i class="fas fa-eye-slash"></i> Hide Tools';
+        }
+      }
+    }
+
+    function updateStats() {
+      const totalTools = Object.values(filteredData).reduce((sum, tools) => sum + tools.length, 0);
+      const totalCategories = Object.keys(filteredData).length;
+      const totalCommands = Object.values(filteredData).reduce((sum, tools) =>
+        sum + tools.reduce((cmdSum, tool) => cmdSum + tool.commands.length, 0), 0);
+
+      document.getElementById('totalTools').innerHTML = `<i class="fas fa-tools"></i> ${totalTools}`;
+      document.getElementById('totalCategories').innerHTML = `<i class="fas fa-layer-group"></i> ${totalCategories}`;
+      document.getElementById('totalCommands').innerHTML = `<i class="fas fa-terminal"></i> ${totalCommands}`;
+    }
+
+    // Global function for toggle button
+    window.toggleCategory = toggleCategory;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initApp();
+    });
+  </script>
+</body>
+</html>
