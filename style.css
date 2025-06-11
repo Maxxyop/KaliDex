@@ -352,3 +352,27 @@ body.dark .demo-content p {
         margin: 15px 0;
     }
 }
+/* JetBrains Mono Title & Description */
+.focusinfo h1, 
+.focusinfo h2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 3.5rem;
+    letter-spacing: 2px;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+.focusinfo p {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: #f0f0f0;
+    opacity: 0.9;
+}
+
+/* Animation */
+.focusinfo h1, 
+.focusinfo p {
+    animation: homepage-load-animation 1.8s ease-out;
+}
+
