@@ -673,110 +673,28 @@ let toolsDatabase = {};
 let filteredData = {};
 let currentSearch = '';
 let currentCategory = '';
-
-// Sample data for demonstration
-const sampleData = {
-    "Reconnaissance": [
-        {
-            "name": "Nmap",
-            "description": "Network discovery and security auditing tool",
-            "commands": [
-                {
-                    "command": "nmap -sn 192.168.1.0/24",
-                    "explanation": "Ping scan to discover live hosts"
-                },
-                {
-                    "command": "nmap -sS -O target_ip",
-                    "explanation": "SYN stealth scan with OS detection"
-                }
-            ]
-        },
-        {
-            "name": "Masscan",
-            "description": "Fast port scanner for large networks",
-            "commands": [
-                {
-                    "command": "masscan -p1-65535 192.168.1.0/24 --rate=1000",
-                    "explanation": "Scan all ports on subnet at 1000 packets/sec"
-                }
-            ]
-        }
-    ],
-    "Web Application Testing": [
-        {
-            "name": "Burp Suite",
-            "description": "Comprehensive web application security testing platform",
-            "commands": [
-                {
-                    "command": "burpsuite",
-                    "explanation": "Launch Burp Suite GUI"
-                }
-            ]
-        },
-        {
-            "name": "Nikto",
-            "description": "Web server scanner for vulnerabilities",
-            "commands": [
-                {
-                    "command": "nikto -h target_url",
-                    "explanation": "Basic vulnerability scan of web server"
-                }
-            ]
-        }
-    ],
-    "Password Attacks": [
-        {
-            "name": "Hydra",
-            "description": "Fast network logon cracker",
-            "commands": [
-                {
-                    "command": "hydra -l admin -P wordlist.txt ssh://target_ip",
-                    "explanation": "SSH brute force attack with username 'admin'"
-                }
-            ]
-        },
-        {
-            "name": "John the Ripper",
-            "description": "Password cracking tool",
-            "commands": [
-                {
-                    "command": "john --wordlist=wordlist.txt hashes.txt",
-                    "explanation": "Dictionary attack on password hashes"
-                }
-            ]
-        }
-    ],
-    "Network Analysis": [
-        {
-            "name": "Wireshark",
-            "description": "Network protocol analyzer",
-            "commands": [
-                {
-                    "command": "wireshark",
-                    "explanation": "Launch Wireshark GUI for packet analysis"
-                }
-            ]
-        },
-        {
-            "name": "TCPdump",
-            "description": "Command-line packet analyzer",
-            "commands": [
-                {
-                    "command": "tcpdump -i eth0 host 192.168.1.1",
-                    "explanation": "Capture packets to/from specific host"
-                }
-            ]
-        }
-    ]
-};
+    
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize with sample data
-    toolsDatabase = sampleData;
-    filteredData = { ...toolsDatabase };
-    
-    initApp();
-    new PetalSystem();
+    fetch('data/tools.json')
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
+        .then(jsonData => {
+            toolsDatabase = jsonData;
+            filteredData = { ...toolsDatabase };
+            initApp();
+            new PetalSystem();
+        })
+        .catch(error => {
+            console.error('Failed to load tools.json:', error);
+            // Optional fallback: use sampleData if fetch fails
+            // toolsDatabase = sampleData;
+            // filteredData = { ...toolsDatabase };
+            // initApp();
+            // new PetalSystem();
+        });
 });
 
 function initApp() {
