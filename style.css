@@ -1,5 +1,3 @@
-/* Background Theme CSS - Extracted and Organized */
-
 /* CSS Variables */
 :root {
     --theme-skin: #505050;
@@ -16,13 +14,11 @@
     --front_background-transparency: 0.75;
 }
 
-/* Custom Font */
 @font-face {
     font-family: 'DongJingJieJiaoDeXiaoLangMan';
     src: url('https://www.misaka19008-lab.icu/wp-includes/fonts/DongJingJieJiaoDeXiaoLangMan.woff2');
 }
 
-/* Base Styles */
 * {
     margin: 0;
     padding: 0;
@@ -37,17 +33,15 @@ html {
 body {
     font-family: DongJingJieJiaoDeXiaoLangMan, sans-serif;
     font-size: 16px;
-    background-size: auto;
+    background-size: cover;
     background-image: url('https://www.misaka19008-lab.icu/wp-content/uploads/2024/11/1730681869-X0_6rTZl.jpeg');
-    background-attachment: fixed;
+    background-attachment: scroll; /* was 'fixed', changed for performance */
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
     min-height: 100vh;
     position: relative;
 }
 
-/* Particles Effect */
 #particles-js {
     width: 100%;
     height: 100%;
@@ -57,16 +51,17 @@ body {
     top: 0;
     bottom: 0;
     z-index: 0;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
-/* Main Container */
 #main-container {
     position: relative;
     z-index: 1;
     min-height: 100vh;
 }
 
-/* Preloader Styles */
 #preload {
     position: fixed;
     width: 100%;
@@ -84,6 +79,15 @@ body {
     position: relative;
 }
 
+#preloader_3:before,
+#preloader_3:after {
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    position: absolute;
+    content: '';
+}
+
 #preloader_3:before {
     background: #FCCD00;
     animation: preloader_3_before 1.5s infinite ease-in-out;
@@ -95,16 +99,6 @@ body {
     animation: preloader_3_after 1.5s infinite ease-in-out;
 }
 
-#preloader_3:before,
-#preloader_3:after {
-    width: 20px;
-    height: 20px;
-    border-radius: 20px;
-    position: absolute;
-    content: '';
-}
-
-/* Preloader Animations */
 @keyframes preloader_3_before {
     0% { transform: translateX(0px) rotate(0deg) }
     50% { transform: translateX(50px) scale(1.2) rotate(260deg); background: #ffea99; border-radius: 0px; }
@@ -117,7 +111,6 @@ body {
     100% { transform: translateX(0px) }
 }
 
-/* Header Top Section */
 .headertop {
     position: relative;
     height: 100vh;
@@ -129,8 +122,8 @@ body {
     background: transparent;
 }
 
-.headertop.filter-dot::before {
-    background-image: url(https://s.nmxc.ltd/sakurairo_vision/@3.0/basic/dot.gif);
+.headertop.filter-dot::before,
+.headertop.filter-grid::before {
     content: '';
     position: absolute;
     top: 0;
@@ -138,36 +131,36 @@ body {
     width: 100%;
     height: 100%;
     z-index: 1;
+}
+
+.headertop.filter-dot::before {
+    background-image: url(https://s.nmxc.ltd/sakurairo_vision/@3.0/basic/dot.gif);
 }
 
 .headertop.filter-grid::before {
     background-image: url(https://s.nmxc.ltd/sakurairo_vision/@3.0/basic/grid.png);
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
 }
 
-/* Wave Animations */
-#banner_wave_1 {
-    background: url(https://s.nmxc.ltd/sakurairo_vision/@3.0/basic/wave1.png) repeat-x;
+#banner_wave_1,
+#banner_wave_2 {
     position: absolute;
     bottom: 0;
     width: 100%;
     height: 60px;
+    z-index: 2;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+#banner_wave_1 {
+    background: url(https://s.nmxc.ltd/sakurairo_vision/@3.0/basic/wave1.png) repeat-x;
     animation: wave1 7s ease-in-out infinite;
     z-index: 2;
 }
 
 #banner_wave_2 {
     background: url(https://s.nmxc.ltd/sakurairo_vision/@3.0/basic/wave2.png) repeat-x;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 60px;
     animation: wave2 7s ease-in-out infinite reverse;
     z-index: 1;
 }
@@ -182,7 +175,6 @@ body {
     50% { transform: translateX(100px); }
 }
 
-/* Center Background */
 #centerbg {
     position: relative;
     width: 100%;
@@ -191,6 +183,17 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 3;
+}
+
+.focusinfo,
+.focusinfo h1,
+.focusinfo p,
+.header-info,
+.content-area,
+.top-social img {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .focusinfo {
@@ -209,12 +212,13 @@ body {
 }
 
 .header-info {
-    background-color: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.15);
+    /* backdrop-filter: blur(10px);  removed for performance */
     border-radius: 15px;
     padding: 30px;
     margin: 20px 0;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.2s ease;
 }
 
 .header-info p {
@@ -223,7 +227,6 @@ body {
     font-weight: 300;
 }
 
-/* Top Social Icons */
 .top-social {
     display: flex;
     justify-content: center;
@@ -246,7 +249,6 @@ body {
     transform: scale(1.1);
 }
 
-/* Header Down Arrow */
 .headertop-down {
     position: absolute;
     bottom: 30px;
@@ -267,7 +269,6 @@ body {
     fill: rgba(255, 255, 255, 0.8);
 }
 
-/* Homepage Load Animation */
 @keyframes homepage-load-animation {
     0% { transform: translateY(50px); opacity: 0; }
     100% { transform: translateY(0); opacity: 1; }
@@ -281,19 +282,18 @@ body {
     animation: homepage-load-animation 2s ease-out;
 }
 
-/* Content Area */
 .content-area {
     background-color: rgba(255, 255, 255, var(--front_background-transparency, 0.75));
-    backdrop-filter: blur(10px);
+    /* backdrop-filter: blur(10px);  removed for performance */
     margin: 0 20px;
     border-radius: 15px;
     padding: 40px;
     margin-top: -50px;
     position: relative;
     z-index: 4;
+    transition: transform 0.2s ease;
 }
 
-/* Demo Content */
 .demo-content {
     text-align: center;
     padding: 40px 20px;
@@ -313,7 +313,6 @@ body {
     margin: 0 auto;
 }
 
-/* Dark Mode Styles */
 body.dark {
     background-color: rgba(0, 0, 0, 0.8);
 }
@@ -336,23 +335,22 @@ body.dark .demo-content p {
     color: #ccc;
 }
 
-/* Responsive Design */
 @media (max-width: 860px) {
     .headertop-down {
         display: none;
     }
-    
+
     .content-area {
         margin: 0 10px;
         padding: 20px;
     }
-    
+
     .header-info {
         padding: 20px;
         margin: 15px 0;
     }
 }
-/* JetBrains Mono Title & Description */
+
 .focusinfo h1, 
 .focusinfo h2 {
     font-family: 'JetBrains Mono', monospace;
@@ -370,9 +368,7 @@ body.dark .demo-content p {
     opacity: 0.9;
 }
 
-/* Animation */
 .focusinfo h1, 
 .focusinfo p {
     animation: homepage-load-animation 1.8s ease-out;
 }
-
