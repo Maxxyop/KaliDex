@@ -6,15 +6,6 @@
 <title>KaliDex - Arsenal for Red Teamers</title>
 <meta property="og:title" content="KaliDex - Kali Linux Tool Catalog" />
 <meta property="og:description" content="Explore categorized tools with usage, command syntax, and explanations. Created by Sameer Shah." />
-<meta property="og:image" content="https://yourdomain.com/assets/preview.png" />
-<meta property="og:url" content="https://yourdomain.com/" />
-<meta property="og:type" content="website" />
-<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="icon" href="logo.png" type="image/png">
-    <!-- Open Graph / WhatsApp Link Preview -->
-<meta property="og:title" content="KaliDex - Kali Linux Tool Catalog" />
-<meta property="og:description" content="Explore categorized tools with usage, commands, and red teaming explanations. Built by Sameer Shah." />
 <meta property="og:image" content="https://kali-dex.vercel.app/logo.png" />
 <meta property="og:url" content="https://kali-dex.vercel.app" />
 <meta property="og:type" content="website" />
@@ -23,28 +14,31 @@
 <meta name="twitter:description" content="Explore categorized tools with commands, explanations, and red teaming tips.">
 <meta name="twitter:image" content="https://kali-dex.vercel.app/logo.png">
 
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="logo.png" type="image/png">
+
 <script defer data-domain="kali-dex.vercel.app" src="https://plausible.io/js/script.file-downloads.outbound-links.js"></script>
 <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
 
-
-
 <style>
-:root {
-    --theme-skin: #505050;
-    --theme-skin-matching: #2c5aa0;
-    --homepage_widget_transparency: 0.85;
-    --style_menu_selection_radius: 12px;
-    --style_menu_radius: 12px;
-    --inline_code_background_color: #F2F1F1;
-    --theme-skin-dark: #1a4480;
-    --global-font-weight: 400;
-    --theme-dm-background_transparency: 0.9;
-    --front_background-transparency: 0.85;
-}
-
 @font-face {
     font-family: 'DongJingJieJiaoDeXiaoLangMan';
     src: url('https://www.misaka19008-lab.icu/wp-includes/fonts/DongJingJieJiaoDeXiaoLangMan.woff2');
+    font-display: swap;
+}
+
+:root {
+    --theme-skin: #505050;
+    --theme-skin-matching: #2c5aa0;
+    --theme-skin-dark: #1a4480;
+    --primary-color: #2c5aa0;
+    --secondary-color: #4a90e2;
+    --text-primary: #1a4480;
+    --bg-card: rgba(255, 255, 255, 0.1);
+    --bg-card-hover: rgba(255, 255, 255, 0.15);
+    --border-card: rgba(255, 255, 255, 0.2);
 }
 
 * {
@@ -80,28 +74,28 @@ body {
     z-index: 1;
 }
 
-#main-container {
+.main-container {
     position: relative;
     z-index: 2;
     min-height: 100vh;
-    padding: 40px 20px 20px 20px;
+    padding: 2.5rem 1.25rem 1.25rem 1.25rem;
 }
 
 .header-container {
     text-align: center;
-    margin-bottom: 60px;
-    padding: 40px 20px;
+    margin-bottom: 3.75rem;
+    padding: 2.5rem 1.25rem;
 }
 
 .main-title {
     font-size: 4rem;
     font-weight: bold;
-    background: linear-gradient(135deg, #1a4480, #2c5aa0, #4a90e2);
+    background: linear-gradient(135deg, var(--theme-skin-dark), var(--primary-color), var(--secondary-color));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     text-shadow: 0 4px 20px rgba(26, 68, 128, 0.5);
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
     letter-spacing: 2px;
     position: relative;
 }
@@ -113,23 +107,23 @@ body {
     left: -10px;
     right: -10px;
     bottom: -10px;
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--bg-card);
     backdrop-filter: blur(8px);
-    border-radius: 20px;
+    border-radius: 1.25rem;
     z-index: -1;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid var(--border-card);
 }
 
 .description {
     font-size: 1.3rem;
     line-height: 1.8;
-    color: #1a4480;
-    max-width: 800px;
-    margin: 0 auto 40px auto;
+    color: var(--text-primary);
+    max-width: 50rem;
+    margin: 0 auto 2.5rem auto;
     font-weight: 500;
     text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8);
     position: relative;
-    padding: 20px;
+    padding: 1.25rem;
 }
 
 .description::before {
@@ -141,297 +135,245 @@ body {
     bottom: 0;
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(6px);
-    border-radius: 15px;
+    border-radius: 0.9375rem;
     z-index: -1;
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.stats {
+.stats-container {
     display: flex;
-    gap: 25px;
+    gap: 1.5625rem;
     justify-content: center;
-    margin-bottom: 40px;
+    margin-bottom: 2.5rem;
     font-weight: 600;
     font-size: 1.1rem;
     flex-wrap: wrap;
 }
 
-.stats > div {
+.stat-item {
     background: rgba(26, 68, 128, 0.15);
     backdrop-filter: blur(8px);
-    padding: 12px 20px;
-    border-radius: 25px;
-    color: #1a4480;
+    padding: 0.75rem 1.25rem;
+    border-radius: 1.5625rem;
+    color: var(--text-primary);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 0.625rem;
     border: 1px solid rgba(26, 68, 128, 0.3);
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, background-color 0.2s ease;
     position: relative;
     font-weight: bold;
+    will-change: transform;
+    contain: layout style paint;
 }
 
-.stats > div:hover {
-    transform: translateY(-5px);
+.stat-item:hover {
+    transform: translateY(-3px);
     background: rgba(26, 68, 128, 0.25);
-    box-shadow: 0 10px 30px rgba(26, 68, 128, 0.3);
 }
 
-.controls {
+.controls-container {
     display: flex;
-    gap: 15px;
+    gap: 0.9375rem;
     flex-wrap: wrap;
-    margin-bottom: 40px;
+    margin-bottom: 2.5rem;
     justify-content: center;
-    max-width: 800px;
+    max-width: 50rem;
     margin-left: auto;
     margin-right: auto;
 }
 
-input#searchInput {
-    flex: 1 1 300px;
-    padding: 12px 18px;
-    border-radius: 12px;
+.search-input {
+    flex: 1 1 18.75rem;
+    padding: 0.75rem 1.125rem;
+    border-radius: 0.75rem;
     border: 2px solid rgba(26, 68, 128, 0.3);
     font-size: 1rem;
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(6px);
-    color: #1a4480;
+    color: var(--text-primary);
     font-weight: 500;
-    transition: all 0.3s ease;
+    transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
 }
 
-input#searchInput:focus {
+.search-input:focus {
     outline: none;
-    border-color: #2c5aa0;
+    border-color: var(--primary-color);
     background: rgba(255, 255, 255, 0.3);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(26, 68, 128, 0.2);
+    transform: translateY(-1px);
 }
 
-input#searchInput::placeholder {
-    color: #4a90e2;
+.search-input::placeholder {
+    color: var(--secondary-color);
     font-weight: 400;
 }
 
-select#categoryFilter {
-    padding: 12px 18px;
-    border-radius: 12px;
+.category-filter {
+    padding: 0.75rem 1.125rem;
+    border-radius: 0.75rem;
     border: 2px solid rgba(26, 68, 128, 0.3);
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(6px);
-    color: #1a4480;
+    color: var(--text-primary);
     font-size: 1rem;
     font-weight: 500;
-    transition: all 0.3s ease;
+    transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
     cursor: pointer;
 }
 
-select#categoryFilter:focus {
+.category-filter:focus {
     outline: none;
-    border-color: #2c5aa0;
+    border-color: var(--primary-color);
     background: rgba(255, 255, 255, 0.3);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(26, 68, 128, 0.2);
+    transform: translateY(-1px);
 }
 
-button#searchBtn {
-    padding: 12px 24px;
-    background: linear-gradient(135deg, #2c5aa0, #4a90e2);
+.search-btn {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     border: none;
-    border-radius: 12px;
+    border-radius: 0.75rem;
     font-weight: 700;
     color: white;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background 0.2s ease, transform 0.2s ease;
     font-size: 1rem;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 4px 15px rgba(44, 90, 160, 0.3);
 }
 
-button#searchBtn:hover {
-    background: linear-gradient(135deg, #1a4480, #2c5aa0);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(26, 68, 128, 0.4);
+.search-btn:hover {
+    background: linear-gradient(135deg, var(--theme-skin-dark), var(--primary-color));
+    transform: translateY(-2px);
 }
 
 .categories-grid {
     display: grid;
-    gap: 25px;
-    max-width: 1200px;
+    gap: 1.5625rem;
+    max-width: 75rem;
     margin: 0 auto;
-}
-
-@media (min-width: 700px) {
-    .categories-grid {
-        grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-    }
+    grid-template-columns: repeat(auto-fit, minmax(23.75rem, 1fr));
 }
 
 .category-card {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--bg-card);
     backdrop-filter: blur(8px);
-    padding: 25px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: all 0.4s ease;
+    padding: 1.5625rem;
+    border-radius: 1.25rem;
+    border: 1px solid var(--border-card);
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
     position: relative;
     overflow: hidden;
-}
-
-.category-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transition: left 0.6s ease;
+    will-change: transform;
+    contain: layout style paint;
 }
 
 .category-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    background: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 15px 40px rgba(26, 68, 128, 0.2);
-    border-color: rgba(44, 90, 160, 0.4);
-}
-
-.category-card:hover::before {
-    left: 100%;
+    transform: translateY(-5px) scale(1.01);
+    background: var(--bg-card-hover);
+    box-shadow: 0 10px 25px rgba(26, 68, 128, 0.15);
 }
 
 .category-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 18px;
+    margin-bottom: 1.125rem;
     position: relative;
-}
-
-.category-header::before {
-    content: '';
-    position: absolute;
-    top: -8px;
-    left: -8px;
-    right: -8px;
-    bottom: -8px;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(4px);
-    border-radius: 12px;
-    z-index: -1;
 }
 
 .category-title {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 0.75rem;
     font-size: 1.4rem;
     font-weight: 700;
-    color: #1a4480;
+    color: var(--text-primary);
     text-shadow: 0 2px 8px rgba(255, 255, 255, 0.5);
 }
 
 .category-count {
-    background: linear-gradient(135deg, #2c5aa0, #4a90e2);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
-    padding: 6px 14px;
-    border-radius: 20px;
+    padding: 0.375rem 0.875rem;
+    border-radius: 1.25rem;
     font-weight: 700;
     font-size: 0.9rem;
-    box-shadow: 0 3px 10px rgba(44, 90, 160, 0.3);
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .expand-btn {
-    margin-bottom: 15px;
-    background: linear-gradient(135deg, #2c5aa0, #4a90e2);
+    margin-bottom: 0.9375rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
     border: none;
-    padding: 10px 16px;
+    padding: 0.625rem 1rem;
     font-weight: 700;
-    border-radius: 12px;
+    border-radius: 0.75rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background 0.2s ease, transform 0.2s ease;
     font-size: 0.9rem;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 3px 10px rgba(44, 90, 160, 0.3);
-    position: relative;
-}
-
-.expand-btn::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(4px);
-    border-radius: 14px;
-    z-index: -1;
 }
 
 .expand-btn:hover {
-    background: linear-gradient(135deg, #1a4480, #2c5aa0);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(26, 68, 128, 0.4);
+    background: linear-gradient(135deg, var(--theme-skin-dark), var(--primary-color));
+    transform: translateY(-1px);
 }
 
 .tools-list {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease;
+    transition: max-height 0.4s ease;
+    contain: layout style paint;
 }
 
 .tools-list.active {
-    max-height: 2000px;
+    max-height: 125rem;
+}
+
+.virtual-container {
+    height: 31.25rem;
+    overflow-y: auto;
+    position: relative;
+    contain: strict;
+}
+
+.virtual-content {
+    position: relative;
 }
 
 .tool-item {
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(6px);
-    border-left: 4px solid #2c5aa0;
-    padding: 18px;
-    margin-bottom: 15px;
-    border-radius: 12px;
-    transition: all 0.3s ease;
+    border-left: 4px solid var(--primary-color);
+    padding: 1.125rem;
+    margin-bottom: 0.9375rem;
+    border-radius: 0.75rem;
+    transition: background-color 0.2s ease, transform 0.2s ease, border-left-color 0.2s ease;
     border: 1px solid rgba(44, 90, 160, 0.2);
     position: relative;
-}
-
-.tool-item::before {
-    content: '';
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    right: -1px;
-    bottom: -1px;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(3px);
-    border-radius: 12px;
-    z-index: -1;
+    will-change: transform;
+    contain: layout style paint;
 }
 
 .tool-item:hover {
     background: rgba(44, 90, 160, 0.15);
-    transform: translateX(8px);
-    border-left-color: #4a90e2;
-    box-shadow: 0 5px 20px rgba(44, 90, 160, 0.2);
+    transform: translateX(5px);
+    border-left-color: var(--secondary-color);
 }
 
 .tool-name {
     font-weight: 700;
     font-size: 1.2rem;
-    color: #1a4480;
-    margin-bottom: 8px;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
     text-shadow: 0 1px 4px rgba(255, 255, 255, 0.5);
 }
 
 .tool-desc {
     font-size: 0.95rem;
-    margin-bottom: 12px;
-    color: #2c5aa0;
+    margin-bottom: 0.75rem;
+    color: var(--primary-color);
     line-height: 1.4;
     font-weight: 500;
 }
@@ -439,55 +381,50 @@ button#searchBtn:hover {
 .command-item {
     background: rgba(26, 68, 128, 0.1);
     backdrop-filter: blur(4px);
-    border-left: 3px solid #4a90e2;
-    padding: 12px 16px;
-    margin-bottom: 10px;
-    border-radius: 10px;
+    border-left: 3px solid var(--secondary-color);
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.625rem;
+    border-radius: 0.625rem;
     font-family: 'Courier New', monospace;
-    color: #1a4480;
+    color: var(--text-primary);
     border: 1px solid rgba(74, 144, 226, 0.2);
     position: relative;
 }
 
-.command-item::before {
-    content: '';
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    right: -1px;
-    bottom: -1px;
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(2px);
-    border-radius: 10px;
-    z-index: -1;
-}
-
 .command-text {
     font-weight: 700;
-    color: #2c5aa0;
-    margin-bottom: 4px;
+    color: var(--primary-color);
+    margin-bottom: 0.25rem;
     font-size: 0.9rem;
 }
 
 .highlight {
-    background: linear-gradient(135deg, #2c5aa0, #4a90e2);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
-    padding: 2px 6px;
-    border-radius: 4px;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
     font-weight: 700;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .no-results {
     text-align: center;
-    color: #2c5aa0;
+    color: var(--primary-color);
     font-size: 1.4rem;
     font-weight: 500;
-    padding: 40px;
-    background: rgba(255, 255, 255, 0.1);
+    padding: 2.5rem;
+    background: var(--bg-card);
     backdrop-filter: blur(8px);
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 1.25rem;
+    border: 1px solid var(--border-card);
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.25rem;
+    color: var(--primary-color);
 }
 
 @media (max-width: 768px) {
@@ -499,17 +436,21 @@ button#searchBtn:hover {
         font-size: 1.1rem;
     }
     
-    .controls {
+    .controls-container {
         flex-direction: column;
     }
     
-    input#searchInput {
+    .search-input {
         flex: 1;
     }
     
-    .stats {
+    .stats-container {
         flex-direction: column;
         align-items: center;
+    }
+    
+    .categories-grid {
+        grid-template-columns: 1fr;
     }
 }
 </style>
@@ -517,7 +458,7 @@ button#searchBtn:hover {
 <body>
 <canvas id="particles-canvas"></canvas>
 
-<div id="main-container">
+<div class="main-container">
     <header class="header-container">
         <h1 class="main-title">KaliDex</h1>
         <p class="description">
@@ -526,25 +467,25 @@ button#searchBtn:hover {
         </p>
     </header>
 
-    <div class="stats" aria-live="polite" aria-atomic="true">
-        <div id="totalTools"><i class="fas fa-tools"></i> 0</div>
-        <div id="totalCategories"><i class="fas fa-layer-group"></i> 0</div>
-        <div id="totalCommands"><i class="fas fa-terminal"></i> 0</div>
+    <div class="stats-container" aria-live="polite" aria-atomic="true">
+        <div class="stat-item" id="totalTools"><i class="fas fa-tools"></i> 0</div>
+        <div class="stat-item" id="totalCategories"><i class="fas fa-layer-group"></i> 0</div>
+        <div class="stat-item" id="totalCommands"><i class="fas fa-terminal"></i> 0</div>
     </div>
 
-    <div class="controls" role="search" aria-label="Search KaliDex tools">
-        <input id="searchInput" type="search" placeholder="Search tools, commands..." aria-label="Search tools and commands" />
-        <select id="categoryFilter" aria-label="Filter by category">
+    <div class="controls-container" role="search" aria-label="Search KaliDex tools">
+        <input id="searchInput" class="search-input" type="search" placeholder="Search tools, commands..." aria-label="Search tools and commands" />
+        <select id="categoryFilter" class="category-filter" aria-label="Filter by category">
             <option value="">All Categories</option>
         </select>
-        <button id="searchBtn" aria-label="Search button"><i class="fas fa-search"></i> Search</button>
+        <button id="searchBtn" class="search-btn" aria-label="Search button"><i class="fas fa-search"></i> Search</button>
     </div>
 
     <div id="categoriesGrid" class="categories-grid"></div>
 </div>
 
 <script>
-// Falling Flower Petals Animation
+// Optimized Falling Flower Petals Animation (kept as requested)
 class FlowerPetal {
     constructor(canvas) {
         this.canvas = canvas;
@@ -596,11 +537,9 @@ class FlowerPetal {
         ctx.translate(this.x, this.y);
         ctx.rotate(this.rotation);
         
-        // Draw flower petal shape
         ctx.fillStyle = `hsl(${300 + Math.sin(this.time) * 20}, 60%, ${70 + Math.sin(this.time * 2) * 10}%)`;
         ctx.beginPath();
         
-        // Petal shape
         for (let i = 0; i < 5; i++) {
             const angle = (i / 5) * Math.PI * 2;
             const petalX = Math.cos(angle) * this.size * 0.6;
@@ -612,7 +551,6 @@ class FlowerPetal {
                 ctx.lineTo(petalX, petalY);
             }
             
-            // Add curves for petal effect
             const nextAngle = ((i + 1) / 5) * Math.PI * 2;
             const ctrlX = Math.cos(angle + Math.PI / 5) * this.size * 0.2;
             const ctrlY = Math.sin(angle + Math.PI / 5) * this.size * 0.2;
@@ -625,7 +563,6 @@ class FlowerPetal {
         ctx.closePath();
         ctx.fill();
         
-        // Add center
         ctx.fillStyle = `hsl(50, 80%, 80%)`;
         ctx.beginPath();
         ctx.arc(0, 0, this.size * 0.2, 0, Math.PI * 2);
@@ -642,6 +579,7 @@ class PetalSystem {
         this.petals = [];
         this.mouseX = null;
         this.mouseY = null;
+        this.animationId = null;
         
         this.resize();
         this.createPetals();
@@ -655,7 +593,7 @@ class PetalSystem {
     }
 
     createPetals() {
-        const petalCount = Math.min(50, Math.floor(this.canvas.width / 20));
+        const petalCount = Math.min(30, Math.floor(this.canvas.width / 25));
         this.petals = [];
         for (let i = 0; i < petalCount; i++) {
             this.petals.push(new FlowerPetal(this.canvas));
@@ -663,20 +601,37 @@ class PetalSystem {
     }
 
     setupEvents() {
-        window.addEventListener('resize', () => {
+        const resizeHandler = this.throttle(() => {
             this.resize();
             this.createPetals();
-        });
+        }, 100);
+        
+        window.addEventListener('resize', resizeHandler);
 
-        document.addEventListener('mousemove', (e) => {
+        const mouseMoveHandler = this.throttle((e) => {
             this.mouseX = e.clientX;
             this.mouseY = e.clientY;
-        });
+        }, 16);
+
+        document.addEventListener('mousemove', mouseMoveHandler);
 
         document.addEventListener('mouseleave', () => {
             this.mouseX = null;
             this.mouseY = null;
         });
+    }
+
+    throttle(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        }
     }
 
     animate() {
@@ -687,256 +642,392 @@ class PetalSystem {
             petal.draw(this.ctx);
         });
         
-        requestAnimationFrame(() => this.animate());
+        this.animationId = requestAnimationFrame(() => this.animate());
+    }
+
+    destroy() {
+        if (this.animationId) {
+            cancelAnimationFrame(this.animationId);
+        }
     }
 }
 
-// KaliDex Application Logic
-let toolsDatabase = {};
-let filteredData = {};
-let currentSearch = '';
-let currentCategory = '';
-    
+// Performance-optimized KaliDex Application Logic
+class KaliDexApp {
+    constructor() {
+        this.toolsDatabase = {};
+        this.filteredData = {};
+        this.currentSearch = '';
+        this.currentCategory = '';
+        this.searchTimeout = null;
+        this.virtualScrollers = new Map();
+        this.observer = null;
+        
+        this.init();
+    }
 
-document.addEventListener('DOMContentLoaded', () => {
-    fetch('data/tools.json')
-        .then(response => {
+    init() {
+        this.setupIntersectionObserver();
+        this.loadData();
+    }
+
+    setupIntersectionObserver() {
+        this.observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const element = entry.target;
+                    if (element.dataset.lazy) {
+                        this.loadLazyContent(element);
+                        this.observer.unobserve(element);
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+    }
+
+    async loadData() {
+        try {
+            const response = await fetch('data/tools.json');
             if (!response.ok) throw new Error('Network response was not ok');
-            return response.json();
-        })
-        .then(jsonData => {
-            toolsDatabase = jsonData;
-            filteredData = { ...toolsDatabase };
-            initApp();
+            const jsonData = await response.json();
+            
+            this.toolsDatabase = jsonData;
+            this.filteredData = { ...jsonData };
+            this.initApp();
             new PetalSystem();
-        })
-        .catch(error => {
+        } catch (error) {
             console.error('Failed to load tools.json:', error);
-            // Optional fallback: use sampleData if fetch fails
-            // toolsDatabase = sampleData;
-            // filteredData = { ...toolsDatabase };
-            // initApp();
-            // new PetalSystem();
+            this.showError('Failed to load tools database. Please refresh the page.');
+        }
+    }
+
+    initApp() {
+        this.populateCategoryFilter();
+        this.renderCategories();
+        this.updateStats();
+        this.setupEventListeners();
+        console.log('KaliDex initialized with', Object.keys(this.toolsDatabase).length, 'categories');
+    }
+
+    populateCategoryFilter() {
+        const categoryFilter = document.getElementById('categoryFilter');
+        const fragment = document.createDocumentFragment();
+        
+        Object.keys(this.toolsDatabase).forEach(category => {
+            const option = document.createElement('option');
+            option.value = category;
+            option.textContent = category;
+            fragment.appendChild(option);
         });
-});
+        
+        categoryFilter.appendChild(fragment);
+    }
 
-function initApp() {
-    populateCategoryFilter();
-    renderCategories();
-    updateStats();
-    setupEventListeners();
-    console.log('KaliDex initialized with', Object.keys(toolsDatabase).length, 'categories');
-}
+    setupEventListeners() {
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const searchBtn = document.getElementById('searchBtn');
 
-function populateCategoryFilter() {
-    const categoryFilter = document.getElementById('categoryFilter');
-    const categories = Object.keys(toolsDatabase);
+        // Debounced search
+        searchInput.addEventListener('input', this.debounce((event) => {
+            this.handleSearch(event);
+        }, 300));
 
-    categories.forEach(category => {
-        const option = document.createElement('option');
-        option.value = category;
-        option.textContent = category;
-        categoryFilter.appendChild(option);
-    });
-}
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                this.performSearch();
+            }
+        });
 
-function setupEventListeners() {
-    const searchInput = document.getElementById('searchInput');
-    const categoryFilter = document.getElementById('categoryFilter');
-    const searchBtn = document.getElementById('searchBtn');
+        categoryFilter.addEventListener('change', (event) => {
+            this.handleCategoryFilter(event);
+        });
 
-    searchInput.addEventListener('input', handleSearch);
-    searchInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
+        searchBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            performSearch();
-        }
-    });
-
-    categoryFilter.addEventListener('change', handleCategoryFilter);
-    searchBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        performSearch();
-    });
-}
-
-function handleSearch(event) {
-    currentSearch = event.target.value.toLowerCase();
-    filterData();
-}
-
-function performSearch() {
-    const searchInput = document.getElementById('searchInput');
-    currentSearch = searchInput.value.toLowerCase();
-    filterData();
-
-    const searchBtn = document.getElementById('searchBtn');
-    searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching...';
-
-    setTimeout(() => {
-        searchBtn.innerHTML = '<i class="fas fa-search"></i> Search';
-    }, 500);
-}
-
-function handleCategoryFilter(event) {
-    currentCategory = event.target.value;
-    filterData();
-}
-
-function filterData() {
-    filteredData = {};
-
-    Object.keys(toolsDatabase).forEach(category => {
-        if (currentCategory && category !== currentCategory) return;
-
-        const filteredTools = toolsDatabase[category].filter(tool => {
-            if (!currentSearch) return true;
-
-            const searchInTool = tool.name.toLowerCase().includes(currentSearch) ||
-                tool.description.toLowerCase().includes(currentSearch);
-
-            const searchInCommands = tool.commands.some(cmd =>
-                cmd.command.toLowerCase().includes(currentSearch) ||
-                cmd.explanation.toLowerCase().includes(currentSearch)
-            );
-
-            return searchInTool || searchInCommands;
+            this.performSearch();
         });
 
-        if (filteredTools.length > 0) {
-            filteredData[category] = filteredTools;
+        // Event delegation for category toggles
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('expand-btn')) {
+                const categoryId = e.target.dataset.category;
+                this.toggleCategory(categoryId, e.target);
+            }
+        });
+    }
+
+    debounce(func, wait) {
+        return (...args) => {
+            clearTimeout(this.searchTimeout);
+            this.searchTimeout = setTimeout(() => func.apply(this, args), wait);
+        };
+    }
+
+    handleSearch(event) {
+        this.currentSearch = event.target.value.toLowerCase();
+        this.filterData();
+    }
+
+    performSearch() {
+        const searchInput = document.getElementById('searchInput');
+        this.currentSearch = searchInput.value.toLowerCase();
+        this.filterData();
+
+        const searchBtn = document.getElementById('searchBtn');
+        searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching...';
+
+        setTimeout(() => {
+            searchBtn.innerHTML = '<i class="fas fa-search"></i> Search';
+        }, 300);
+    }
+
+    handleCategoryFilter(event) {
+        this.currentCategory = event.target.value;
+        this.filterData();
+    }
+
+    filterData() {
+        this.filteredData = {};
+
+        Object.keys(this.toolsDatabase).forEach(category => {
+            if (this.currentCategory && category !== this.currentCategory) return;
+
+            const filteredTools = this.toolsDatabase[category].filter(tool => {
+                if (!this.currentSearch) return true;
+
+                const searchInTool = tool.name.toLowerCase().includes(this.currentSearch) ||
+                    tool.description.toLowerCase().includes(this.currentSearch);
+
+                const searchInCommands = tool.commands.some(cmd =>
+                    cmd.command.toLowerCase().includes(this.currentSearch) ||
+                    cmd.explanation.toLowerCase().includes(this.currentSearch)
+                );
+
+                return searchInTool || searchInCommands;
+            });
+
+            if (filteredTools.length > 0) {
+                this.filteredData[category] = filteredTools;
+            }
+        });
+
+        this.renderCategories();
+        this.updateStats();
+    }
+
+    renderCategories() {
+        const grid = document.getElementById('categoriesGrid');
+
+        if (Object.keys(this.filteredData).length === 0) {
+            grid.innerHTML = `
+                <div class="no-results" role="alert" aria-live="assertive" aria-atomic="true">
+                    <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;"></i>
+                    <p>No tools found matching your criteria.</p>
+                    <p style="opacity: 0.75; margin-top: 10px;">Try adjusting your search terms or category filter.</p>
+                </div>
+            `;
+            return;
         }
-    });
 
-    renderCategories();
-    updateStats();
-}
+        const fragment = document.createDocumentFragment();
 
-function renderCategories() {
-    const grid = document.getElementById('categoriesGrid');
+        Object.keys(this.filteredData).forEach(category => {
+            const categoryCard = this.createCategoryCard(category, this.filteredData[category]);
+            fragment.appendChild(categoryCard);
+        });
 
-    if (Object.keys(filteredData).length === 0) {
-        grid.innerHTML = `
-            <div class="no-results" role="alert" aria-live="assertive" aria-atomic="true">
-                <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;"></i>
-                <p>No tools found matching your criteria.</p>
-                <p style="opacity: 0.75; margin-top: 10px;">Try adjusting your search terms or category filter.</p>
+        grid.innerHTML = '';
+        grid.appendChild(fragment);
+    }
+
+    createCategoryCard(category, tools) {
+        const card = document.createElement('div');
+        card.className = 'category-card';
+
+        const categoryIcon = this.getCategoryIcon(category);
+        const sanitizedCategory = category.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '');
+
+        card.innerHTML = `
+            <div class="category-header">
+                <div class="category-title">
+                    <i class="${categoryIcon}"></i>
+                    <span>${category}</span>
+                </div>
+                <div class="category-count">${tools.length}</div>
+            </div>
+            <button class="expand-btn" data-category="${sanitizedCategory}">
+                <i class="fas fa-eye"></i> View Tools
+            </button>
+            <div class="tools-list" id="tools-${sanitizedCategory}">
+                <div class="virtual-container" id="virtual-${sanitizedCategory}">
+                    <div class="virtual-content">
+                        ${this.createVirtualScrollContent(tools, sanitizedCategory)}
+                    </div>
+                </div>
             </div>
         `;
-        return;
+
+        return card;
     }
 
-    grid.innerHTML = '';
+    createVirtualScrollContent(tools, categoryId) {
+        // For performance, only render first 10 items initially
+        const visibleTools = tools.slice(0, 10);
+        const remainingCount = tools.length - 10;
+        
+        let content = visibleTools.map(tool => this.createToolItem(tool)).join('');
+        
+        if (remainingCount > 0) {
+            content += `
+                <div class="loading" data-lazy="true" data-category="${categoryId}" data-offset="10">
+                    <i class="fas fa-spinner fa-spin"></i> Loading ${remainingCount} more tools...
+                </div>
+            `;
+        }
+        
+        return content;
+    }
 
-    Object.keys(filteredData).forEach(category => {
-        const categoryCard = createCategoryCard(category, filteredData[category]);
-        grid.appendChild(categoryCard);
-    });
-}
+    loadLazyContent(element) {
+        const categoryId = element.dataset.category;
+        const offset = parseInt(element.dataset.offset);
+        const category = Object.keys(this.filteredData).find(cat => 
+            cat.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '') === categoryId
+        );
+        
+        if (!category) return;
+        
+        const tools = this.filteredData[category];
+        const nextBatch = tools.slice(offset, offset + 10);
+        const remainingCount = tools.length - offset - 10;
+        
+        const container = element.parentElement;
+        element.remove();
+        
+        const fragment = document.createDocumentFragment();
+        nextBatch.forEach(tool => {
+            const toolElement = document.createElement('div');
+            toolElement.innerHTML = this.createToolItem(tool);
+            fragment.appendChild(toolElement.firstElementChild);
+        });
+        
+        if (remainingCount > 0) {
+            const loadingElement = document.createElement('div');
+            loadingElement.className = 'loading';
+            loadingElement.dataset.lazy = 'true';
+            loadingElement.dataset.category = categoryId;
+            loadingElement.dataset.offset = offset + 10;
+            loadingElement.innerHTML = `
+                <i class="fas fa-spinner fa-spin"></i> Loading ${remainingCount} more tools...
+            `;
+            fragment.appendChild(loadingElement);
+            this.observer.observe(loadingElement);
+        }
+        
+        container.appendChild(fragment);
+    }
 
-function createCategoryCard(category, tools) {
-    const card = document.createElement('div');
-    card.className = 'category-card';
+    getCategoryIcon(category) {
+        const icons = {
+            'Reconnaissance': 'fas fa-search',
+            'Windows AD Enumeration': 'fab fa-windows',
+            'Web Application Testing': 'fas fa-globe',
+            'Password Attacks': 'fas fa-key',
+            'Wireless Security': 'fas fa-wifi',
+            'Network Analysis': 'fas fa-network-wired',
+            'Exploitation': 'fas fa-bug',
+            'Digital Forensics': 'fas fa-search-plus',
+            'Vulnerability Assessment': 'fas fa-shield-alt',
+            'Reverse Engineering': 'fas fa-cogs',
+            'Cryptography': 'fas fa-lock',
+            'System Analysis': 'fas fa-desktop',
+            'Database Assessment': 'fas fa-database',
+            'SNMP Analysis': 'fas fa-server',
+            'DNS Analysis': 'fas fa-dns'
+        };
+        return icons[category] || 'fas fa-tools';
+    }
 
-    const categoryIcon = getCategoryIcon(category);
-    const sanitizedCategory = category.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '');
+    createToolItem(tool) {
+        const highlightText = (text, searchTerm) => {
+            if (!searchTerm) return text;
+            const regex = new RegExp(`(${this.escapeRegExp(searchTerm)})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        };
 
-    card.innerHTML = `
-        <div class="category-header">
-            <div class="category-title">
-                <i class="${categoryIcon}"></i>
-                <span>${category}</span>
+        return `
+            <div class="tool-item">
+                <div class="tool-name">${highlightText(tool.name, this.currentSearch)}</div>
+                <div class="tool-desc">${highlightText(tool.description, this.currentSearch)}</div>
+                <div class="commands">
+                    ${tool.commands.map(cmd => `
+                        <div class="command-item">
+                            <div class="command-text">${highlightText(cmd.command, this.currentSearch)}</div>
+                            <div>${highlightText(cmd.explanation, this.currentSearch)}</div>
+                        </div>
+                    `).join('')}
+                </div>
             </div>
-            <div class="category-count">${tools.length}</div>
-        </div>
-        <button class="expand-btn" onclick="toggleCategory('${sanitizedCategory}', this)">
-            <i class="fas fa-eye"></i> View Tools
-        </button>
-        <div class="tools-list" id="tools-${sanitizedCategory}">
-            ${tools.map(tool => createToolItem(tool)).join('')}
-        </div>
-    `;
+        `;
+    }
 
-    return card;
-}
+    toggleCategory(sanitizedCategory, buttonElement) {
+        const toolsList = document.getElementById(`tools-${sanitizedCategory}`);
 
-function getCategoryIcon(category) {
-    const icons = {
-        'Reconnaissance': 'fas fa-search',
-        'Windows AD Enumeration': 'fab fa-windows',
-        'Web Application Testing': 'fas fa-globe',
-        'Password Attacks': 'fas fa-key',
-        'Wireless Security': 'fas fa-wifi',
-        'Network Analysis': 'fas fa-network-wired',
-        'Exploitation': 'fas fa-bug',
-        'Digital Forensics': 'fas fa-search-plus',
-        'Vulnerability Assessment': 'fas fa-shield-alt',
-        'Reverse Engineering': 'fas fa-cogs',
-        'Cryptography': 'fas fa-lock',
-        'System Analysis': 'fas fa-desktop',
-        'Database Assessment': 'fas fa-database',
-        'SNMP Analysis': 'fas fa-server',
-        'DNS Analysis': 'fas fa-dns'
-    };
-    return icons[category] || 'fas fa-tools';
-}
+        if (toolsList && buttonElement) {
+            const isActive = toolsList.classList.contains('active');
 
-function createToolItem(tool) {
-    const highlightText = (text, searchTerm) => {
-        if (!searchTerm) return text;
-        const regex = new RegExp(`(${escapeRegExp(searchTerm)})`, 'gi');
-        return text.replace(regex, '<span class="highlight">$1</span>');
-    };
-
-    const escapeRegExp = (string) => {
-        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    };
-
-    return `
-        <div class="tool-item">
-            <div class="tool-name">${highlightText(tool.name, currentSearch)}</div>
-            <div class="tool-desc">${highlightText(tool.description, currentSearch)}</div>
-            <div class="commands">
-                ${tool.commands.map(cmd => `
-                    <div class="command-item">
-                        <div class="command-text">${highlightText(cmd.command, currentSearch)}</div>
-                        <div>${highlightText(cmd.explanation, currentSearch)}</div>
-                    </div>
-                `).join('')}
-            </div>
-        </div>
-    `;
-}
-
-function toggleCategory(sanitizedCategory, buttonElement) {
-    const toolsList = document.getElementById(`tools-${sanitizedCategory}`);
-
-    if (toolsList && buttonElement) {
-        const isActive = toolsList.classList.contains('active');
-
-        if (isActive) {
-            toolsList.classList.remove('active');
-            buttonElement.innerHTML = '<i class="fas fa-eye"></i> View Tools';
-        } else {
-            toolsList.classList.add('active');
-            buttonElement.innerHTML = '<i class="fas fa-eye-slash"></i> Hide Tools';
+            if (isActive) {
+                toolsList.classList.remove('active');
+                buttonElement.innerHTML = '<i class="fas fa-eye"></i> View Tools';
+            } else {
+                toolsList.classList.add('active');
+                buttonElement.innerHTML = '<i class="fas fa-eye-slash"></i> Hide Tools';
+                
+                // Observe lazy loading elements when category is expanded
+                const lazyElements = toolsList.querySelectorAll('[data-lazy="true"]');
+                lazyElements.forEach(element => {
+                    this.observer.observe(element);
+                });
+            }
         }
     }
+
+    updateStats() {
+        const totalTools = Object.values(this.filteredData).reduce((sum, tools) => sum + tools.length, 0);
+        const totalCategories = Object.keys(this.filteredData).length;
+        const totalCommands = Object.values(this.filteredData).reduce((sum, tools) =>
+            sum + tools.reduce((cmdSum, tool) => cmdSum + tool.commands.length, 0), 0);
+
+        // Use requestAnimationFrame for smooth updates
+        requestAnimationFrame(() => {
+            document.getElementById('totalTools').innerHTML = `<i class="fas fa-tools"></i> ${totalTools}`;
+            document.getElementById('totalCategories').innerHTML = `<i class="fas fa-layer-group"></i> ${totalCategories}`;
+            document.getElementById('totalCommands').innerHTML = `<i class="fas fa-terminal"></i> ${totalCommands}`;
+        });
+    }
+
+    escapeRegExp(string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    showError(message) {
+        const grid = document.getElementById('categoriesGrid');
+        grid.innerHTML = `
+            <div class="no-results" role="alert" aria-live="assertive" aria-atomic="true">
+                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 20px; color: #e74c3c;"></i>
+                <p>${message}</p>
+            </div>
+        `;
+    }
 }
 
-function updateStats() {
-    const totalTools = Object.values(filteredData).reduce((sum, tools) => sum + tools.length, 0);
-    const totalCategories = Object.keys(filteredData).length;
-    const totalCommands = Object.values(filteredData).reduce((sum, tools) =>
-        sum + tools.reduce((cmdSum, tool) => cmdSum + tool.commands.length, 0), 0);
-
-    document.getElementById('totalTools').innerHTML = `<i class="fas fa-tools"></i> ${totalTools}`;
-    document.getElementById('totalCategories').innerHTML = `<i class="fas fa-layer-group"></i> ${totalCategories}`;
-    document.getElementById('totalCommands').innerHTML = `<i class="fas fa-terminal"></i> ${totalCommands}`;
-}
-
-// Global function for toggle button
-window.toggleCategory = toggleCategory;
+// Initialize application when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    new KaliDexApp();
+});
 </script>
 </body>
 </html>
