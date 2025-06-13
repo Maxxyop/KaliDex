@@ -524,19 +524,16 @@ body.dark .demo-content p {
     text-align: center;
     padding: 22px 0 20px 0;
     font-size: 1.4rem;
-    color: #fff !important; /* Strong white text */
-    background: #294aa4 !important; /* Vivid dark blue (can change to #002366 for even deeper blue) */
-    font-family: 'JetBrains Mono', monospace, Arial, sans-serif;
+    color: #fff;
+    background: #294aa4;
+    font-family: Arial, sans-serif;
     letter-spacing: 1px;
-    font-weight: 700 !important; /* Maximum boldness */
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    z-index: 1000;
-    box-shadow: 0 -2px 18px rgba(41,74,164,0.35);
+    font-weight: 700;
+    box-shadow: 0 -2px 18px rgba(41,74,164,0.15);
     user-select: none;
-    transition: background 0.2s;
+    margin-top: 40px;
 }
+
 
 
 
