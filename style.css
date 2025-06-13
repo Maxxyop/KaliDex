@@ -522,18 +522,21 @@ body.dark .demo-content p {
 .site-credit {
     width: 100%;
     text-align: center;
-    padding: 18px 0 16px 0;
-    font-size: 1rem;
-    color: #bbb;
-    background: rgba(24,24,24,0.85); /* matches a dark theme */
+    padding: 22px 0 20px 0;
+    font-size: 1.25rem; /* Bigger text */
+    color: #fff; /* White text stands out on dark blue */
+    background: #183893; /* Deep dark blue */
     font-family: 'JetBrains Mono', monospace;
     letter-spacing: 1px;
+    font-weight: bold; /* Make it bold */
     position: fixed;
     left: 0;
     bottom: 0;
     z-index: 1000;
-    box-shadow: 0 -2px 12px rgba(0,0,0,0.2);
+    box-shadow: 0 -2px 16px rgba(24,56,147,0.35); /* Subtle blue shadow */
     user-select: none;
+    transition: background 0.2s;
 }
+
 
 
