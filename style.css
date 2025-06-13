@@ -16,6 +16,7 @@
 @font-face {
     font-family: 'DongJingJieJiaoDeXiaoLangMan';
     src: url('https://www.misaka19008-lab.icu/wp-includes/fonts/DongJingJieJiaoDeXiaoLangMan.woff2');
+    font-display: swap; /* Improved font loading */
 }
 
 * {
@@ -27,6 +28,8 @@
 html {
     font-display: swap;
     overflow-x: hidden;
+    /* Add smooth scrolling for better UX */
+    scroll-behavior: smooth;
 }
 
 body {
@@ -34,13 +37,17 @@ body {
     font-size: 16px;
     background-size: cover;
     background-image: url('https://www.misaka19008-lab.icu/wp-content/uploads/2024/11/1730681869-X0_6rTZl.jpeg');
-    background-attachment: scroll;
+    background-attachment: fixed; /* Changed from scroll to fixed for better performance */
     background-position: center;
     background-repeat: no-repeat;
     min-height: 100vh;
     position: relative;
+    /* GPU acceleration for body */
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
+/* Optimized particles container */
 #particles-js {
     width: 100%;
     height: 100%;
@@ -51,34 +58,39 @@ body {
     bottom: 0;
     z-index: 0;
     will-change: transform;
-    transform: translateZ(0);
+    transform: translate3d(0, 0, 0); /* Better GPU acceleration */
     backface-visibility: hidden;
+    /* Disable pointer events to improve scroll performance */
+    pointer-events: none;
 }
 
 #main-container {
     position: relative;
     z-index: 1;
     min-height: 100vh;
+    /* Add containment for better performance */
+    contain: layout style paint;
 }
 
+/* Optimized box transitions - removed transform scale for better performance */
 .box.hidden {
     opacity: 0;
-    transform: scale(0.95);
     pointer-events: none;
     position: absolute;
     visibility: hidden;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: opacity 0.2s ease; /* Reduced transition time */
 }
 
 .box {
     opacity: 1;
-    transform: scale(1);
     visibility: visible;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: opacity 0.2s ease; /* Reduced transition time */
     position: relative;
+    /* Add containment for search result boxes */
+    contain: layout style;
 }
 
-
+/* Preloader optimizations */
 #preload {
     position: fixed;
     width: 100%;
@@ -90,10 +102,14 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    /* Add will-change for preloader */
+    will-change: opacity;
 }
 
 #preloader_3 {
     position: relative;
+    /* GPU acceleration */
+    transform: translateZ(0);
 }
 
 #preloader_3:before,
@@ -103,6 +119,8 @@ body {
     border-radius: 20px;
     position: absolute;
     content: '';
+    /* GPU acceleration for animations */
+    will-change: transform;
 }
 
 #preloader_3:before {
@@ -116,16 +134,17 @@ body {
     animation: preloader_3_after 1.5s infinite ease-in-out;
 }
 
+/* Optimized keyframes with transform3d */
 @keyframes preloader_3_before {
-    0% { transform: translateX(0px) rotate(0deg) }
-    50% { transform: translateX(50px) scale(1.2) rotate(260deg); background: #ffea99; border-radius: 0px; }
-    100% { transform: translateX(0px) rotate(0deg) }
+    0% { transform: translate3d(0, 0, 0) rotate(0deg) }
+    50% { transform: translate3d(50px, 0, 0) scale(1.2) rotate(260deg); background: #ffea99; border-radius: 0px; }
+    100% { transform: translate3d(0, 0, 0) rotate(0deg) }
 }
 
 @keyframes preloader_3_after {
-    0% { transform: translateX(0px) }
-    50% { transform: translateX(-50px) scale(1.2) rotate(-260deg); background: #FCCD00; border-radius: 0px; }
-    100% { transform: translateX(0px) }
+    0% { transform: translate3d(0, 0, 0) }
+    50% { transform: translate3d(-50px, 0, 0) scale(1.2) rotate(-260deg); background: #FCCD00; border-radius: 0px; }
+    100% { transform: translate3d(0, 0, 0) }
 }
 
 .headertop {
@@ -133,6 +152,8 @@ body {
     height: 100vh;
     overflow: hidden;
     border-radius: 0 !important;
+    /* Add containment */
+    contain: layout style paint;
 }
 
 .headertop.filter-nothing {
@@ -148,6 +169,9 @@ body {
     width: 100%;
     height: 100%;
     z-index: 1;
+    /* GPU acceleration */
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .headertop.filter-dot::before {
@@ -158,6 +182,7 @@ body {
     background-image: url(https://s.nmxc.ltd/sakurairo_vision/@3.0/basic/grid.png);
 }
 
+/* Optimized wave animations */
 #banner_wave_1,
 #banner_wave_2 {
     position: absolute;
@@ -166,8 +191,10 @@ body {
     height: 60px;
     z-index: 2;
     will-change: transform;
-    transform: translateZ(0);
+    transform: translate3d(0, 0, 0); /* Better GPU acceleration */
     backface-visibility: hidden;
+    /* Disable pointer events for better scroll performance */
+    pointer-events: none;
 }
 
 #banner_wave_1 {
@@ -182,14 +209,15 @@ body {
     z-index: 1;
 }
 
+/* Optimized wave keyframes */
 @keyframes wave1 {
-    0%, 100% { transform: translateX(0px); }
-    50% { transform: translateX(-100px); }
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    50% { transform: translate3d(-100px, 0, 0); }
 }
 
 @keyframes wave2 {
-    0%, 100% { transform: translateX(0px); }
-    50% { transform: translateX(100px); }
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    50% { transform: translate3d(100px, 0, 0); }
 }
 
 #centerbg {
@@ -200,8 +228,11 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 3;
+    /* Add containment */
+    contain: layout style;
 }
 
+/* Optimized focus info elements */
 .focusinfo,
 .focusinfo h1,
 .focusinfo p,
@@ -209,7 +240,7 @@ body {
 .content-area,
 .top-social img {
     will-change: transform, opacity;
-    transform: translateZ(0);
+    transform: translate3d(0, 0, 0); /* Better GPU acceleration */
     backface-visibility: hidden;
 }
 
@@ -218,6 +249,8 @@ body {
     color: white;
     z-index: 4;
     position: relative;
+    /* Add containment */
+    contain: layout style;
 }
 
 .header-tou img {
@@ -226,6 +259,9 @@ body {
     border-radius: 50%;
     margin-bottom: 20px;
     border: 3px solid rgba(255, 255, 255, 0.3);
+    /* GPU acceleration for images */
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .header-info {
@@ -234,7 +270,9 @@ body {
     padding: 30px;
     margin: 20px 0;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: transform 0.2s ease;
+    transition: transform 0.15s ease; /* Faster transition */
+    /* Add containment */
+    contain: layout style;
 }
 
 .header-info p {
@@ -248,24 +286,29 @@ body {
     justify-content: center;
     gap: 15px;
     margin-top: 30px;
+    /* Add containment */
+    contain: layout style;
 }
 
 .top-social li {
     list-style: none;
 }
 
+/* Optimized hover effects */
 .top-social img {
     width: 40px;
     height: 40px;
     border-radius: 15px;
-    transition: transform 0.3s ease;
+    transition: transform 0.2s ease; /* Faster transition */
     will-change: transform;
+    transform: translateZ(0);
 }
 
 .top-social img:hover {
-    transform: scale(1.1);
+    transform: translate3d(0, 0, 0) scale(1.1); /* GPU accelerated scale */
 }
 
+/* Optimized bounce animation */
 .headertop-down {
     position: absolute;
     bottom: 30px;
@@ -275,21 +318,23 @@ body {
     z-index: 5;
     animation: bounce 2s infinite;
     will-change: transform;
+    transform: translate3d(-50%, 0, 0); /* GPU acceleration */
 }
 
 @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-    40% { transform: translateX(-50%) translateY(-10px); }
-    60% { transform: translateX(-50%) translateY(-5px); }
+    0%, 20%, 50%, 80%, 100% { transform: translate3d(-50%, 0, 0); }
+    40% { transform: translate3d(-50%, -10px, 0); }
+    60% { transform: translate3d(-50%, -5px, 0); }
 }
 
 .homepage-downicon {
     fill: rgba(255, 255, 255, 0.8);
 }
 
+/* Optimized load animation */
 @keyframes homepage-load-animation {
-    0% { transform: translateY(50px); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
+    0% { transform: translate3d(0, 50px, 0); opacity: 0; }
+    100% { transform: translate3d(0, 0, 0); opacity: 1; }
 }
 
 .header-info,
@@ -297,10 +342,11 @@ body {
 .focusinfo .header-tou img,
 .top-social img,
 .top-social i {
-    animation: homepage-load-animation 2s ease-out;
+    animation: homepage-load-animation 1.5s ease-out; /* Faster animation */
     will-change: transform;
 }
 
+/* Optimized content area */
 .content-area {
     background-color: rgba(255, 255, 255, var(--front_background-transparency, 0.75));
     margin: 0 20px;
@@ -309,18 +355,27 @@ body {
     margin-top: -50px;
     position: relative;
     z-index: 4;
-    transition: transform 0.2s ease;
+    transition: transform 0.15s ease; /* Faster transition */
+    /* Add containment for better scroll performance */
+    contain: layout style paint;
+    /* GPU acceleration */
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .demo-content {
     text-align: center;
     padding: 40px 20px;
+    /* Add containment */
+    contain: layout style;
 }
 
 .demo-content h1 {
     font-size: 2.5em;
     margin-bottom: 20px;
     color: #333;
+    /* GPU acceleration for text */
+    transform: translateZ(0);
 }
 
 .demo-content p {
@@ -329,8 +384,11 @@ body {
     color: #666;
     max-width: 800px;
     margin: 0 auto;
+    /* GPU acceleration for text */
+    transform: translateZ(0);
 }
 
+/* Dark mode optimizations */
 body.dark {
     background-color: rgba(0, 0, 0, 0.8);
 }
@@ -353,6 +411,7 @@ body.dark .demo-content p {
     color: #ccc;
 }
 
+/* Mobile optimizations */
 @media (max-width: 860px) {
     .headertop-down {
         display: none;
@@ -367,8 +426,21 @@ body.dark .demo-content p {
         padding: 20px;
         margin: 15px 0;
     }
+    
+    /* Disable animations on mobile for better performance */
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    /* Disable particle effects on mobile */
+    #particles-js {
+        display: none;
+    }
 }
 
+/* Typography optimizations */
 .focusinfo h1, 
 .focusinfo h2 {
     font-family: 'JetBrains Mono', monospace;
@@ -377,6 +449,7 @@ body.dark .demo-content p {
     letter-spacing: 2px;
     text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
     will-change: transform;
+    transform: translateZ(0); /* GPU acceleration */
 }
 
 .focusinfo p {
@@ -386,10 +459,45 @@ body.dark .demo-content p {
     color: #f0f0f0;
     opacity: 0.9;
     will-change: transform;
+    transform: translateZ(0); /* GPU acceleration */
 }
 
 .focusinfo h1, 
 .focusinfo p {
-    animation: homepage-load-animation 1.8s ease-out;
+    animation: homepage-load-animation 1.5s ease-out; /* Faster animation */
     will-change: transform;
+}
+
+/* Additional performance optimizations for search results */
+.search-container {
+    contain: layout style paint;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+.tool-card {
+    contain: layout style;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.tool-card:hover {
+    transform: translate3d(0, -2px, 0);
+}
+
+/* Optimize scrolling performance */
+.scrollable-content {
+    -webkit-overflow-scrolling: touch;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    contain: layout style paint;
+}
+
+/* Reduce paint complexity */
+.blur-effect {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
