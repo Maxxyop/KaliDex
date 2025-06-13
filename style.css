@@ -243,6 +243,7 @@ body {
     height: 40px;
     border-radius: 15px;
     transition: transform 0.3s ease;
+    will-change: transform; /* Performance hint to the browser */
 }
 
 .top-social img:hover {
@@ -257,6 +258,7 @@ body {
     cursor: pointer;
     z-index: 5;
     animation: bounce 2s infinite;
+    will-change: transform; /* Performance hint to the browser */
 }
 
 @keyframes bounce {
@@ -280,6 +282,7 @@ body {
 .top-social img,
 .top-social i {
     animation: homepage-load-animation 2s ease-out;
+    will-change: transform; /* Performance hint to the browser */
 }
 
 .content-area {
@@ -358,6 +361,7 @@ body.dark .demo-content p {
     font-size: 3.5rem;
     letter-spacing: 2px;
     text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+    will-change: transform; /* Performance hint to the browser */
 }
 
 .focusinfo p {
@@ -366,9 +370,11 @@ body.dark .demo-content p {
     font-size: 1.2rem;
     color: #f0f0f0;
     opacity: 0.9;
+    will-change: transform; /* Performance hint to the browser */
 }
 
 .focusinfo h1, 
 .focusinfo p {
     animation: homepage-load-animation 1.8s ease-out;
+    will-change: transform; /* Performance hint to the browser */
 }
