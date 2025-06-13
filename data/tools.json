@@ -1140,3 +1140,595 @@
             }
         ]
     }
+{
+    "Windows Exploitation": [
+        {
+            "name": "Evil-WinRM",
+            "description": "A widely used tool for remote command execution and post-exploitation on Windows systems via WinRM protocol.",
+            "commands": [
+                {
+                    "command": "evil-winrm -i <ip> -u <user> -p <pass>",
+                    "explanation": "Connect to a Windows target using WinRM with credentials."
+                },
+                {
+                    "command": "evil-winrm -i <ip> -u <user> -H <hash>",
+                    "explanation": "Authenticate using an NTLM hash instead of a password."
+                },
+                {
+                    "command": "evil-winrm -i <ip> -u <user> -p <pass> -s ./scripts/",
+                    "explanation": "Specify a folder containing scripts to upload and execute."
+                }
+            ]
+        },
+        {
+            "name": "Mimikatz",
+            "description": "A famous Windows post-exploitation tool for extracting plaintext passwords, hashes, PINs, and Kerberos tickets from memory.",
+            "commands": [
+                {
+                    "command": "privilege::debug",
+                    "explanation": "Enable debug privileges for Mimikatz."
+                },
+                {
+                    "command": "sekurlsa::logonpasswords",
+                    "explanation": "Dump credentials from memory."
+                },
+                {
+                    "command": "lsadump::sam",
+                    "explanation": "Dump SAM database containing password hashes."
+                }
+            ]
+        },
+        {
+            "name": "SharpHound (BloodHound)",
+            "description": "Data collector for BloodHound, used for Active Directory enumeration and privilege escalation path mapping.",
+            "commands": [
+                {
+                    "command": "SharpHound.exe -c All",
+                    "explanation": "Collect all possible information about the domain."
+                },
+                {
+                    "command": "SharpHound.exe -c Session,LocalAdmin",
+                    "explanation": "Collect session and local admin information."
+                }
+            ]
+        },
+        {
+            "name": "PowerView",
+            "description": "A PowerShell tool for network situational awareness in Windows domains, focusing on AD enumeration and privilege escalation.",
+            "commands": [
+                {
+                    "command": "Get-NetUser",
+                    "explanation": "Enumerate domain users."
+                },
+                {
+                    "command": "Get-NetGroup -GroupName \"Domain Admins\"",
+                    "explanation": "List members of Domain Admins group."
+                }
+            ]
+        },
+        {
+            "name": "PsExec",
+            "description": "Sysinternals tool for executing processes on remote Windows systems, often used for lateral movement and command execution.",
+            "commands": [
+                {
+                    "command": "psexec.exe \\\\<target> -u <user> -p <pass> cmd.exe",
+                    "explanation": "Open a remote command prompt on the target."
+                }
+            ]
+        },
+        {
+            "name": "LaZagne",
+            "description": "A tool to retrieve stored passwords on Windows machines from browsers, databases, Wi-Fi, and more.",
+            "commands": [
+                {
+                    "command": "laZagne.exe all",
+                    "explanation": "Dump all possible credentials from the system."
+                }
+            ]
+        }
+    ],
+    "Windows Privilege Escalation": [
+        {
+            "name": "Windows Exploit Suggester",
+            "description": "Script to identify potential privilege escalation vulnerabilities on Windows by comparing hotfixes with exploit database.",
+            "commands": [
+                {
+                    "command": "windows-exploit-suggester.py --database 2024-06-01-mssb.xls --systeminfo systeminfo.txt",
+                    "explanation": "Analyze missing patches and suggest exploits based on system info."
+                }
+            ]
+        },
+        {
+            "name": "Seatbelt",
+            "description": "A C# project for gathering security-related host information useful for Windows privilege escalation.",
+            "commands": [
+                {
+                    "command": "Seatbelt.exe all",
+                    "explanation": "Collect all available host security information."
+                }
+            ]
+        },
+        {
+            "name": "PowerUp",
+            "description": "PowerShell tool for Windows privilege escalation by searching for common misconfigurations.",
+            "commands": [
+                {
+                    "command": "Invoke-AllChecks",
+                    "explanation": "Run all privilege escalation checks."
+                }
+            ]
+        },
+        {
+            "name": "PrivescCheck",
+            "description": "A PowerShell script that audits Windows machines for common privilege escalation vulnerabilities.",
+            "commands": [
+                {
+                    "command": "Invoke-PrivescCheck",
+                    "explanation": "Run privilege escalation checks."
+                }
+            ]
+        },
+        {
+            "name": "Sherlock",
+            "description": "PowerShell script to find missing patches and known privilege escalation vulnerabilities on Windows.",
+            "commands": [
+                {
+                    "command": "Invoke-AllChecks",
+                    "explanation": "Check for all known local privilege escalation vulnerabilities."
+                }
+            ]
+        },
+        {
+            "name": "AccessChk",
+            "description": "Sysinternals tool to view effective permissions on files, registry keys, services, and more for privilege escalation.",
+            "commands": [
+                {
+                    "command": "accesschk.exe -uwcqv \"<username>\" *",
+                    "explanation": "Check user permissions across system objects."
+                }
+            ]
+        }
+    ],
+    "Linux Privilege Escalation": [
+        {
+            "name": "LinPEAS",
+            "description": "Automated script to enumerate possible paths to escalate privileges on Linux systems.",
+            "commands": [
+                {
+                    "command": "./linpeas.sh",
+                    "explanation": "Run the privilege escalation script."
+                }
+            ]
+        },
+        {
+            "name": "Linux Exploit Suggester 2",
+            "description": "Scans for kernel and software vulnerabilities that could allow privilege escalation.",
+            "commands": [
+                {
+                    "command": "perl linux-exploit-suggester-2.pl",
+                    "explanation": "Run the exploit suggestion script."
+                }
+            ]
+        },
+        {
+            "name": "LinEnum",
+            "description": "Script for extensive Linux privilege escalation and enumeration.",
+            "commands": [
+                {
+                    "command": "./LinEnum.sh",
+                    "explanation": "Run the all-in-one enumeration script."
+                }
+            ]
+        },
+        {
+            "name": "GTFOBins",
+            "description": "Online repository of Unix binaries that can be used to bypass local security restrictions.",
+            "commands": [
+                {
+                    "command": "curl https://gtfobins.github.io/ | grep <binary>",
+                    "explanation": "Search for binary exploitation techniques."
+                }
+            ]
+        },
+        {
+            "name": "pspy",
+            "description": "Process monitoring tool to snoop on processes without root permissions.",
+            "commands": [
+                {
+                    "command": "./pspy64",
+                    "explanation": "Run process monitor for privilege escalation discovery."
+                }
+            ]
+        },
+        {
+            "name": "sudo -l",
+            "description": "Built-in Linux command to list allowed (and forbidden) commands for the current user.",
+            "commands": [
+                {
+                    "command": "sudo -l",
+                    "explanation": "Show which commands can be run with sudo privileges."
+                }
+            ]
+        }
+    ],
+    "Buffer Overflow Exploitation": [
+        {
+            "name": "GDB (GNU Debugger)",
+            "description": "Standard debugger for analyzing binary crashes, memory, and stepping through code during exploitation.",
+            "commands": [
+                {
+                    "command": "gdb ./vulnerable_binary",
+                    "explanation": "Start debugging a binary."
+                }
+            ]
+        },
+        {
+            "name": "pwntools",
+            "description": "Python library for rapid exploit development, automation, and interaction with binaries.",
+            "commands": [
+                {
+                    "command": "python3 exploit.py",
+                    "explanation": "Run a pwntools-based exploit script."
+                }
+            ]
+        },
+        {
+            "name": "radare2",
+            "description": "Advanced open-source framework for reverse engineering and binary analysis.",
+            "commands": [
+                {
+                    "command": "r2 -d ./vulnerable_binary",
+                    "explanation": "Open binary in debugger mode."
+                }
+            ]
+        },
+        {
+            "name": "gef (GDB Enhanced Features)",
+            "description": "A plugin for GDB adding powerful commands and context for binary exploitation.",
+            "commands": [
+                {
+                    "command": "source gef.py",
+                    "explanation": "Load gef into GDB session."
+                }
+            ]
+        },
+        {
+            "name": "pattern_create.rb / pattern_offset.rb",
+            "description": "Metasploit tools for finding buffer overflow offsets.",
+            "commands": [
+                {
+                    "command": "pattern_create.rb -l 200",
+                    "explanation": "Create a unique pattern of 200 bytes."
+                },
+                {
+                    "command": "pattern_offset.rb -q <value>",
+                    "explanation": "Find offset of a value in the pattern."
+                }
+            ]
+        },
+        {
+            "name": "ROPgadget",
+            "description": "Tool to search for ROP (Return Oriented Programming) gadgets in binaries, aiding exploitation.",
+            "commands": [
+                {
+                    "command": "ROPgadget --binary ./vuln_binary",
+                    "explanation": "List ROP gadgets in the target binary."
+                }
+            ]
+        }
+    ],
+    "Cloud Security Testing": [
+        {
+            "name": "ScoutSuite",
+            "description": "Multi-cloud security auditing tool for AWS, Azure, GCP, and more.",
+            "commands": [
+                {
+                    "command": "scout aws",
+                    "explanation": "Run ScoutSuite scan on AWS account."
+                }
+            ]
+        },
+        {
+            "name": "Prowler",
+            "description": "Security tool to perform AWS CIS Benchmark, GDPR, HIPAA, and custom security checks.",
+            "commands": [
+                {
+                    "command": "./prowler",
+                    "explanation": "Run default security assessment on AWS."
+                }
+            ]
+        },
+        {
+            "name": "CloudSploit",
+            "description": "Open-source project for scanning AWS account configurations for security risks.",
+            "commands": [
+                {
+                    "command": "cloudsploit scan --profile <aws_profile>",
+                    "explanation": "Scan AWS environment for misconfigurations."
+                }
+            ]
+        },
+        {
+            "name": "PacBot",
+            "description": "Automated cloud security compliance and governance dashboard.",
+            "commands": [
+                {
+                    "command": "pacbot-cloud <cloud-provider>",
+                    "explanation": "Run automated compliance checks."
+                }
+            ]
+        },
+        {
+            "name": "Steampipe",
+            "description": "Query cloud infrastructure with SQL for security, compliance, and visibility.",
+            "commands": [
+                {
+                    "command": "steampipe query 'select * from aws_s3_bucket;'",
+                    "explanation": "Query AWS S3 buckets using SQL."
+                }
+            ]
+        },
+        {
+            "name": "Kube-hunter",
+            "description": "Tool for discovering security issues in Kubernetes clusters.",
+            "commands": [
+                {
+                    "command": "kube-hunter --remote <ip>",
+                    "explanation": "Run remote security scan against Kubernetes cluster."
+                }
+            ]
+        }
+    ],
+    "Mobile Application Testing": [
+        {
+            "name": "MobSF (Mobile Security Framework)",
+            "description": "Automated, all-in-one mobile app pen-testing, malware analysis, and security assessment framework.",
+            "commands": [
+                {
+                    "command": "python manage.py runserver",
+                    "explanation": "Start MobSF server for mobile app analysis."
+                }
+            ]
+        },
+        {
+            "name": "Frida",
+            "description": "Dynamic instrumentation toolkit for developers, reverse-engineers, and security researchers on Android/iOS.",
+            "commands": [
+                {
+                    "command": "frida -U -f com.example.app -l script.js",
+                    "explanation": "Inject JavaScript into a running mobile app."
+                }
+            ]
+        },
+        {
+            "name": "Burp Suite",
+            "description": "Integrated platform for performing security testing of web and mobile applications.",
+            "commands": [
+                {
+                    "command": "burpsuite",
+                    "explanation": "Launch Burp Suite for mobile app HTTP interception."
+                }
+            ]
+        },
+        {
+            "name": "APKTool",
+            "description": "Decompile and recompile Android APK files for analysis and reverse engineering.",
+            "commands": [
+                {
+                    "command": "apktool d app.apk",
+                    "explanation": "Decompile an APK file."
+                }
+            ]
+        },
+        {
+            "name": "Objection",
+            "description": "Runtime mobile exploration toolkit powered by Frida, used for Android and iOS penetration testing.",
+            "commands": [
+                {
+                    "command": "objection -g com.example.app explore",
+                    "explanation": "Start an interactive session in the target app."
+                }
+            ]
+        },
+        {
+            "name": "QARK",
+            "description": "Quick Android Review Kit for finding security vulnerabilities in Android apps.",
+            "commands": [
+                {
+                    "command": "python qarkMain.py",
+                    "explanation": "Run static code analysis on APKs."
+                }
+            ]
+        }
+    ],
+    "Container Security": [
+        {
+            "name": "Trivy",
+            "description": "Comprehensive vulnerability scanner for containers, file systems, and repositories.",
+            "commands": [
+                {
+                    "command": "trivy image <image>",
+                    "explanation": "Scan a Docker image for vulnerabilities."
+                }
+            ]
+        },
+        {
+            "name": "Docker Bench for Security",
+            "description": "Script that checks for dozens of common best-practices around deploying Docker containers in production.",
+            "commands": [
+                {
+                    "command": "docker run -it --net host --pid host --userns host --cap-add audit_control -e DOCKER_CONTENT_TRUST=$DOCKER_CONTENT_TRUST -v /var/lib:/var/lib -v /var/run/docker.sock:/var/run/docker.sock -v /usr/lib/systemd:/usr/lib/systemd -v /etc:/etc --label docker_bench_security docker/docker-bench-security",
+                    "explanation": "Run Docker Bench for Security container."
+                }
+            ]
+        },
+        {
+            "name": "kube-bench",
+            "description": "Checks whether Kubernetes is deployed according to security best practices as defined in the CIS Kubernetes Benchmark.",
+            "commands": [
+                {
+                    "command": "kube-bench",
+                    "explanation": "Run benchmark checks on the Kubernetes cluster."
+                }
+            ]
+        },
+        {
+            "name": "Clair",
+            "description": "Open-source project for the static analysis of vulnerabilities in application containers (currently including OCI and Docker).",
+            "commands": [
+                {
+                    "command": "clairctl analyze <image>",
+                    "explanation": "Analyze Docker image for vulnerabilities."
+                }
+            ]
+        },
+        {
+            "name": "Falco",
+            "description": "Cloud-native runtime security tool for detecting anomalous activity in applications, containers, and Kubernetes.",
+            "commands": [
+                {
+                    "command": "falco",
+                    "explanation": "Start Falco runtime security monitoring."
+                }
+            ]
+        },
+        {
+            "name": "Anchore Engine",
+            "description": "Extensible open-source tool for deep image inspection and vulnerability scanning for containers.",
+            "commands": [
+                {
+                    "command": "anchore-cli image add <image>",
+                    "explanation": "Add an image to Anchore for scanning."
+                }
+            ]
+        }
+    ],
+    "OSINT": [
+        {
+            "name": "theHarvester",
+            "description": "Email, subdomain, and people names gatherer using public sources like search engines and PGP key servers.",
+            "commands": [
+                {
+                    "command": "theharvester -d example.com -b google",
+                    "explanation": "Gather emails and subdomains from Google."
+                }
+            ]
+        },
+        {
+            "name": "Recon-ng",
+            "description": "Full-featured Web Reconnaissance framework with independent modules and interactive console.",
+            "commands": [
+                {
+                    "command": "recon-ng",
+                    "explanation": "Launch Recon-ng framework."
+                }
+            ]
+        },
+        {
+            "name": "Maltego",
+            "description": "Graph-based link analysis tool for gathering and connecting information from various sources.",
+            "commands": [
+                {
+                    "command": "maltego",
+                    "explanation": "Start Maltego GUI for OSINT investigations."
+                }
+            ]
+        },
+        {
+            "name": "SpiderFoot",
+            "description": "Automated OSINT tool for gathering intelligence on IPs, domains, emails, and more.",
+            "commands": [
+                {
+                    "command": "spiderfoot -s <target> -l 127.0.0.1:5001",
+                    "explanation": "Start SpiderFoot web UI."
+                }
+            ]
+        },
+        {
+            "name": "FOCA",
+            "description": "Tool for extracting metadata and hidden information from documents on web pages.",
+            "commands": [
+                {
+                    "command": "foca",
+                    "explanation": "Launch FOCA for document analysis."
+                }
+            ]
+        },
+        {
+            "name": "Amass",
+            "description": "Advanced tool for DNS enumeration, network mapping, and external asset discovery.",
+            "commands": [
+                {
+                    "command": "amass enum -d example.com",
+                    "explanation": "Perform subdomain enumeration."
+                }
+            ]
+        }
+    ],
+    "Steganography & Steganalysis": [
+        {
+            "name": "Steghide",
+            "description": "Popular command-line tool for hiding and extracting data in various image and audio file formats.",
+            "commands": [
+                {
+                    "command": "steghide extract -sf image.jpg",
+                    "explanation": "Extract hidden data from a JPEG image."
+                },
+                {
+                    "command": "steghide embed -cf image.jpg -ef secret.txt",
+                    "explanation": "Embed a secret file into a JPEG image."
+                }
+            ]
+        },
+        {
+            "name": "zsteg",
+            "description": "Tool for detecting and extracting LSB steganography in PNG/BMP files.",
+            "commands": [
+                {
+                    "command": "zsteg image.png",
+                    "explanation": "Analyze PNG image for steganography."
+                }
+            ]
+        },
+        {
+            "name": "Binwalk",
+            "description": "Firmware analysis tool often used for extracting embedded files and data from binary images.",
+            "commands": [
+                {
+                    "command": "binwalk -e file.img",
+                    "explanation": "Extract embedded files from a binary image."
+                }
+            ]
+        },
+        {
+            "name": "stegsolve",
+            "description": "Java-based GUI tool for analyzing images for hidden data using color planes and filters.",
+            "commands": [
+                {
+                    "command": "java -jar Stegsolve.jar",
+                    "explanation": "Launch Stegsolve GUI."
+                }
+            ]
+        },
+        {
+            "name": "OutGuess",
+            "description": "Universal steganographic tool that allows data to be hidden in the redundant bits of data sources.",
+            "commands": [
+                {
+                    "command": "outguess -d secret.txt image.jpg",
+                    "explanation": "Extract hidden data using OutGuess."
+                }
+            ]
+        },
+        {
+            "name": "ExifTool",
+            "description": "Powerful tool for reading, writing, and editing metadata in image, video, and audio files.",
+            "commands": [
+                {
+                    "command": "exiftool image.jpg",
+                    "explanation": "Analyze metadata for hidden information."
+                }
+            ]
+        }
+    ]
+}
