@@ -46,6 +46,9 @@ body {
     transform: translateZ(0);
     backface-visibility: hidden;
 }
+html, body {
+    overscroll-behavior: none;
+}
 
 /* Optimized particles container */
 #particles-js {
