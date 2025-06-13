@@ -46,10 +46,13 @@ body {
     transform: translateZ(0);
     backface-visibility: hidden;
 }
-html, body, #main-container {
-    min-height: 100vh;
-    height: 100vh;
+html {
+    background: #000; /* Or match your site background */
 }
+body {
+    background: #000; /* Or match your site background */
+}
+
 
 /* Optimized particles container */
 #particles-js {
