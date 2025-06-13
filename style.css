@@ -1,4 +1,3 @@
-/* CSS Variables */
 :root {
     --theme-skin: #505050;
     --theme-skin-matching: #a4cdf6;
@@ -35,7 +34,7 @@ body {
     font-size: 16px;
     background-size: cover;
     background-image: url('https://www.misaka19008-lab.icu/wp-content/uploads/2024/11/1730681869-X0_6rTZl.jpeg');
-    background-attachment: scroll; /* was 'fixed', changed for performance */
+    background-attachment: scroll;
     background-position: center;
     background-repeat: no-repeat;
     min-height: 100vh;
@@ -213,12 +212,12 @@ body {
 
 .header-info {
     background-color: rgba(255, 255, 255, 0.15);
-    /* backdrop-filter: blur(10px);  removed for performance */
     border-radius: 15px;
     padding: 30px;
     margin: 20px 0;
     border: 1px solid rgba(255, 255, 255, 0.2);
     transition: transform 0.2s ease;
+    will-change: transform;
 }
 
 .header-info p {
@@ -243,7 +242,7 @@ body {
     height: 40px;
     border-radius: 15px;
     transition: transform 0.3s ease;
-    will-change: transform; /* Performance hint to the browser */
+    will-change: transform;
 }
 
 .top-social img:hover {
@@ -258,7 +257,7 @@ body {
     cursor: pointer;
     z-index: 5;
     animation: bounce 2s infinite;
-    will-change: transform; /* Performance hint to the browser */
+    will-change: transform;
 }
 
 @keyframes bounce {
@@ -282,12 +281,11 @@ body {
 .top-social img,
 .top-social i {
     animation: homepage-load-animation 2s ease-out;
-    will-change: transform; /* Performance hint to the browser */
+    will-change: transform;
 }
 
 .content-area {
     background-color: rgba(255, 255, 255, var(--front_background-transparency, 0.75));
-    /* backdrop-filter: blur(10px);  removed for performance */
     margin: 0 20px;
     border-radius: 15px;
     padding: 40px;
@@ -295,6 +293,7 @@ body {
     position: relative;
     z-index: 4;
     transition: transform 0.2s ease;
+    will-change: transform;
 }
 
 .demo-content {
@@ -354,14 +353,14 @@ body.dark .demo-content p {
     }
 }
 
-.focusinfo h1, 
+.focusinfo h1,
 .focusinfo h2 {
     font-family: 'JetBrains Mono', monospace;
     font-weight: 700;
     font-size: 3.5rem;
     letter-spacing: 2px;
     text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
-    will-change: transform; /* Performance hint to the browser */
+    will-change: transform;
 }
 
 .focusinfo p {
@@ -370,11 +369,11 @@ body.dark .demo-content p {
     font-size: 1.2rem;
     color: #f0f0f0;
     opacity: 0.9;
-    will-change: transform; /* Performance hint to the browser */
+    will-change: transform;
 }
 
-.focusinfo h1, 
+.focusinfo h1,
 .focusinfo p {
     animation: homepage-load-animation 1.8s ease-out;
-    will-change: transform; /* Performance hint to the browser */
+    will-change: transform;
 }
