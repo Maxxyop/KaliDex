@@ -46,13 +46,9 @@ body {
     transform: translateZ(0);
     backface-visibility: hidden;
 }
-html {
-    background: #000; /* Or match your site background */
+html, body {
+    overflow: hidden !important;
 }
-body {
-    background: #000; /* Or match your site background */
-}
-
 
 /* Optimized particles container */
 #particles-js {
