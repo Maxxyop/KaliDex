@@ -523,20 +523,21 @@ body.dark .demo-content p {
     width: 100%;
     text-align: center;
     padding: 22px 0 20px 0;
-    font-size: 1.25rem; /* Bigger text */
-    color: #fff; /* White text stands out on dark blue */
-    background: #183893; /* Deep dark blue */
-    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.4rem;
+    color: #fff !important; /* Strong white text */
+    background: #294aa4 !important; /* Vivid dark blue (can change to #002366 for even deeper blue) */
+    font-family: 'JetBrains Mono', monospace, Arial, sans-serif;
     letter-spacing: 1px;
-    font-weight: bold; /* Make it bold */
+    font-weight: 700 !important; /* Maximum boldness */
     position: fixed;
     left: 0;
     bottom: 0;
     z-index: 1000;
-    box-shadow: 0 -2px 16px rgba(24,56,147,0.35); /* Subtle blue shadow */
+    box-shadow: 0 -2px 18px rgba(41,74,164,0.35);
     user-select: none;
     transition: background 0.2s;
 }
+
 
 
 
