@@ -519,4 +519,21 @@ body.dark .demo-content p {
   background-color: rgba(255, 255, 255, 0.08);
 }
 
+.site-credit {
+    width: 100%;
+    text-align: center;
+    padding: 18px 0 16px 0;
+    font-size: 1rem;
+    color: #bbb;
+    background: rgba(24,24,24,0.85); /* matches a dark theme */
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 1px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.2);
+    user-select: none;
+}
+
 
