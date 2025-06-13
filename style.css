@@ -46,8 +46,10 @@ body {
     transform: translateZ(0);
     backface-visibility: hidden;
 }
-html, body {
-    overscroll-behavior: none;
+html, body, #main-container {
+    overscroll-behavior: contain;
+    min-height: 100vh;
+    height: 100vh;
 }
 
 /* Optimized particles container */
