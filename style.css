@@ -61,6 +61,22 @@ body {
     min-height: 100vh;
 }
 
+.box {
+    will-change: transform, opacity;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
+    transform: scale(1);
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.box.hidden {
+    opacity: 0;
+    transform: scale(0.95);
+    pointer-events: none;
+    position: absolute;
+}
+
 #preload {
     position: fixed;
     width: 100%;
@@ -217,7 +233,6 @@ body {
     margin: 20px 0;
     border: 1px solid rgba(255, 255, 255, 0.2);
     transition: transform 0.2s ease;
-    will-change: transform;
 }
 
 .header-info p {
@@ -293,7 +308,6 @@ body {
     position: relative;
     z-index: 4;
     transition: transform 0.2s ease;
-    will-change: transform;
 }
 
 .demo-content {
@@ -353,7 +367,7 @@ body.dark .demo-content p {
     }
 }
 
-.focusinfo h1,
+.focusinfo h1, 
 .focusinfo h2 {
     font-family: 'JetBrains Mono', monospace;
     font-weight: 700;
@@ -372,7 +386,7 @@ body.dark .demo-content p {
     will-change: transform;
 }
 
-.focusinfo h1,
+.focusinfo h1, 
 .focusinfo p {
     animation: homepage-load-animation 1.8s ease-out;
     will-change: transform;
