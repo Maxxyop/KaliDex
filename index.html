@@ -872,12 +872,12 @@ class KaliDexApp {
         return card;
     }
 
-    createVirtualScrollContent(tools, categoryId) {
-        // For performance, only render first 10 items initially
-        const visibleTools = tools.slice(0, 10);
-        const remainingCount = tools.length - 10;
-        
-        let content = visibleTools.map(tool => this.createToolItem(tool)).join('');
+        let content = visibleTools.map(tool => `
+        <div class="tool-wrapper">
+            ${this.createToolItem(tool)}
+        </div>
+    `).join('');
+
         
         if (remainingCount > 0) {
             content += `
@@ -909,7 +909,7 @@ class KaliDexApp {
         const fragment = document.createDocumentFragment();
         nextBatch.forEach(tool => {
             const toolElement = document.createElement('div');
-            toolElement.innerHTML = this.createToolItem(tool);
+            toolElement.innerHTML = `<div class="tool-wrapper">${this.createToolItem(tool)}</div>`;
             fragment.appendChild(toolElement.firstElementChild);
         });
         
