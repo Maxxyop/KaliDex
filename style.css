@@ -61,21 +61,23 @@ body {
     min-height: 100vh;
 }
 
-.box {
-    will-change: transform, opacity;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    opacity: 1;
-    transform: scale(1);
-    background-color: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
 .box.hidden {
     opacity: 0;
     transform: scale(0.95);
     pointer-events: none;
     position: absolute;
+    visibility: hidden;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
+
+.box {
+    opacity: 1;
+    transform: scale(1);
+    visibility: visible;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    position: relative;
+}
+
 
 #preload {
     position: fixed;
