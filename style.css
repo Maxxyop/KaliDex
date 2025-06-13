@@ -46,10 +46,9 @@ body {
     transform: translateZ(0);
     backface-visibility: hidden;
 }
-html, body, #main-container {
-    overscroll-behavior: contain;
-    min-height: 100vh;
-    height: 100vh;
+html, body {
+    overscroll-behavior: none;
+    overflow-x: hidden;
 }
 
 /* Optimized particles container */
