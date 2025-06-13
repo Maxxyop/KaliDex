@@ -872,11 +872,11 @@ class KaliDexApp {
         return card;
     }
 
-        let content = visibleTools.map(tool => `
-        <div class="tool-wrapper">
-            ${this.createToolItem(tool)}
-        </div>
-    `).join('');
+       createVirtualScrollContent(tools, categoryId) {
+    const visibleTools = tools.slice(0, 10);
+    const remainingCount = tools.length - 10;
+
+    let content = visibleTools.map(tool => this.createToolItem(tool)).join('');
 
         
         if (remainingCount > 0) {
