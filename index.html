@@ -1030,15 +1030,32 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-    <footer class="site-credit">
-        Crafted by &ndash; Sameer Shah &ndash; Junior Pen Tester | Red Teamer | Member of HackTheBox Chennai
-    </footer>
+<style>
+.site-credit {
+    width: 100%;
+    text-align: center;
+    padding: 22px 0 20px 0;
+    font-size: 1.3rem;
+    color: #fff;
+    background: linear-gradient(90deg, #294aa4 60%, #3b5998 100%);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    letter-spacing: 1px;
+    font-weight: 700;
+    box-shadow: 0 -2px 18px rgba(41,74,164,0.15);
+    user-select: none;
+    margin-top: 40px;
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    transition: background 0.4s;
+}
+.site-credit:hover {
+    background: linear-gradient(90deg, #3b5998 60%, #294aa4 100%);
+    color: #ffd700;
+}
+</style>
 
-    <script>
-        // Initialize application when DOM is ready
-        document.addEventListener('DOMContentLoaded', () => {
-            new KaliDexApp();
-        });
-    </script>
+<footer class="site-credit">
+    Crafted by &ndash; <span style="color:#ffd700;">Sameer Shah</span> &ndash; Junior Pen Tester | Red Teamer | Member of HackTheBox Chennai
+</footer>
 </body>
 </html>
